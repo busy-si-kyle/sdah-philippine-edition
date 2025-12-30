@@ -20,5 +20,5 @@
 
 ## Phase 4: Contribution & Missing Assets
 - [x] Task: Create the Contribution page with submission criteria 2cadeb7
-- [ ] Task: Implement a filter/view for "Hymns Missing Sheet Music"
-- [ ] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
+- [x] Task: Implement a filter/view for "Hymns Missing Sheet Music" f08cb1a
+- [~] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
