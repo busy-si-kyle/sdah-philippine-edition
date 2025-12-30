@@ -4,17 +4,16 @@ import { describe, it, expect, vi } from 'vitest';
 vi.mock("@/data/hymns_philippine.json", () => ({
   default: {
     hymns: [
-      { number: 1, title: "Hymn 1", lyrics: "Lyrics 1", category: "Worship" },
-      { number: 2, title: "Hymn 2", lyrics: "Lyrics 2", category: "Praise" },
-      { number: 3, title: "Hymn 3", lyrics: "Lyrics 3", category: "Worship" }, // Duplicate category
-      { number: 4, title: "Hymn 4", lyrics: "Lyrics 4" }, // No category
+      { number: 1, title: "Morning Joy", lyrics: "Evening tearfulness", category: "Worship" },
+      { number: 2, title: "Evening Prayer", lyrics: "Morning light", category: "Praise" },
+      { number: 3, title: "Sabbath Morning", lyrics: "Peaceful day", category: "Worship" },
     ]
   }
 }));
 
-import { getCategories, getHymnsByCategory, getAllHymns } from './hymnal';
+import { getCategories, getHymnsByCategory, getAllHymns, searchHymns } from './hymnal';
 
-describe('Hymnal Utility (Category Logic)', () => {
+describe('Hymnal Utility (Logic)', () => {
   it('should return unique sorted categories', () => {
     const categories = getCategories();
     expect(categories).toEqual(['Praise', 'Worship']);
@@ -33,6 +32,14 @@ describe('Hymnal Utility (Category Logic)', () => {
   });
 
   it('should return all hymns from mock', () => {
-    expect(getAllHymns().length).toBe(4);
+    expect(getAllHymns().length).toBe(3);
+  });
+
+  it('should prioritize title matches over lyrics matches', () => {
+    const results = searchHymns('Morning');
+    // 'Morning' is in titles of 1 and 3.
+    // 'Morning' is in lyrics of 2.
+    // Results should be [1, 3, 2] (1 and 3 prioritized because they are in title)
+    expect(results.map(h => h.number)).toEqual([1, 3, 2]);
   });
 });

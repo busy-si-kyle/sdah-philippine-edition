@@ -35,13 +35,20 @@ export function searchHymns(query: string): Hymn[] {
 
     return false;
   }).sort((a, b) => {
-    // Prioritize exact number match if query is a number
+    // 1. Prioritize exact number match if query is a number
     if (isNumber) {
       if (a.number === Number(q)) return -1;
       if (b.number === Number(q)) return 1;
     }
+
+    // 2. Prioritize title matches
+    const aTitleMatch = a.title.toLowerCase().includes(q);
+    const bTitleMatch = b.title.toLowerCase().includes(q);
+
+    if (aTitleMatch && !bTitleMatch) return -1;
+    if (!aTitleMatch && bTitleMatch) return 1;
     
-    // Then sort by number
+    // 3. Then sort by number
     return a.number - b.number;
   });
 }
