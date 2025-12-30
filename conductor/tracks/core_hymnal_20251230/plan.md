@@ -14,7 +14,7 @@
 
 ## Phase 3: Hymn Details & Viewing Experience
 - [x] Task: Build the individual Hymn detail page layout f789117
-- [ ] Task: Implement responsive lyrics display with "Presentation Mode"
+- [x] Task: Implement responsive lyrics display with "Presentation Mode" f4528ab
 - [ ] Task: Integrate sheet music display and PDF download links (Google Drive)
 - [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
 
