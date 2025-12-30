@@ -1,7 +1,7 @@
 # Track Plan: Core Hymnal Functionality
 
 ## Phase 1: Project Scaffolding & Data Setup
-- [ ] Task: Initialize Next.js project with Tailwind CSS and Shadcn/UI
+- [~] Task: Initialize Next.js project with Tailwind CSS and Shadcn/UI
 - [ ] Task: Configure project structure and import existing assets (JSON and images)
 - [ ] Task: Create data utility to load and parse `hymns_philippine.json`
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
