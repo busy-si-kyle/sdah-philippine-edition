@@ -12,11 +12,11 @@
 - [x] Task: Implement "Browse by Category" functionality (Skipped per user request)
 - [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md) 220c76c
 
-## Phase 3: Hymn Details & Viewing Experience
+## Phase 3: Hymn Details & Viewing Experience [checkpoint: 4aa8fbe]
 - [x] Task: Build the individual Hymn detail page layout f789117
 - [x] Task: Implement responsive lyrics display with "Presentation Mode" f4528ab
-- [ ] Task: Integrate sheet music display and PDF download links (Google Drive)
-- [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
+- [x] Task: Integrate sheet music display and PDF download links (Google Drive) 0509003 (Refactored to single column a398d2a)
+- [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md) 4aa8fbe
 
 ## Phase 4: Contribution & Missing Assets
 - [ ] Task: Create the Contribution page with submission criteria
