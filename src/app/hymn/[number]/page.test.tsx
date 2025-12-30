@@ -59,6 +59,40 @@ describe('Hymn Detail Page', () => {
     expect(screen.getByText(/O worship the Lord in the beauty of holiness/i)).toBeDefined();
   });
 
+  it('should display sheet music download link if available', async () => {
+    // Mock getHymnByNumber to return a hymn with a sheetMusicUrl
+    vi.mocked(hymnal.getHymnByNumber).mockReturnValueOnce({
+      number: 1,
+      title: 'O Worship the Lord',
+      lyrics: '...',
+      sheetMusicUrl: 'https://drive.google.com/file/d/123/view'
+    });
+
+    const params = Promise.resolve({ number: '1' });
+    // @ts-ignore
+    render(await HymnPage({ params }));
+
+    const downloadLink = screen.getByText(/Download PDF/i);
+    expect(downloadLink).toBeDefined();
+    expect(downloadLink.closest('a')).toHaveProperty('href', 'https://drive.google.com/file/d/123/view');
+  });
+
+  it('should show contribution message if sheet music is missing', async () => {
+    // Mock getHymnByNumber to return a hymn WITHOUT a sheetMusicUrl
+    vi.mocked(hymnal.getHymnByNumber).mockReturnValueOnce({
+      number: 1,
+      title: 'O Worship the Lord',
+      lyrics: '...'
+    });
+
+    const params = Promise.resolve({ number: '1' });
+    // @ts-ignore
+    render(await HymnPage({ params }));
+
+    expect(screen.getByText(/Missing sheet music/i)).toBeDefined();
+    expect(screen.getByText(/Help us complete this hymn/i)).toBeDefined();
+  });
+
   it('should show not found for non-existent hymn', async () => {
     const params = Promise.resolve({ number: '999' });
     
