@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { searchHymns } from "@/lib/hymnal";
 import { Hymn } from "@/types/hymn";
+import Link from "next/link";
 
 export default function Home() {
   const [query, setQuery] = useState("");
@@ -53,9 +54,10 @@ export default function Home() {
             {results.length > 0 ? (
               <div className="grid gap-4">
                 {results.map((hymn) => (
-                  <div 
+                  <Link 
                     key={hymn.number}
-                    className="p-4 rounded-lg border bg-white dark:bg-zinc-900 dark:border-zinc-800 hover:border-zinc-400 transition-colors cursor-pointer"
+                    href={`/hymn/${hymn.number}`}
+                    className="p-4 rounded-lg border bg-white dark:bg-zinc-900 dark:border-zinc-800 hover:border-zinc-400 transition-colors cursor-pointer block"
                   >
                     <div className="flex justify-between items-start">
                       <h3 className="font-semibold text-lg text-zinc-900 dark:text-zinc-50">
@@ -70,7 +72,7 @@ export default function Home() {
                     <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 line-clamp-2">
                       {hymn.lyrics}
                     </p>
-                  </div>
+                  </Link>
                 ))}
               </div>
             ) : (
