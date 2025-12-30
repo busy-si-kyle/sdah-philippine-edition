@@ -1,0 +1,17 @@
+# Tech Stack - SDA Hymnal Philippine Edition
+
+## Frontend
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS with Shadcn/UI for consistent, modern, and accessible components.
+- **Language:** TypeScript for type safety and better developer experience.
+
+## Data & Search
+- **Data Storage:** Static JSON files containing hymn metadata (number, title, category), lyrics, and links.
+- **Search Implementation:** Client-side search for instantaneous results across titles, numbers, and full lyrics, leveraging the static nature of the hymnal data for zero server-side latency.
+
+## Sheet Music & Downloads
+- **File Hosting:** PDF music sheets and images will be hosted/linked via Google Drive as per the maintainer's workflow.
+- **Contribution Workflow:** The website will feature a prominent section directing contributors to provide sheet music links or files via the established Google Drive process.
+
+## Deployment
+- **Platform:** Vercel (Recommended for Next.js) or similar static hosting providers.
