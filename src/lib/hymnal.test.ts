@@ -1,7 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { searchHymns, getHymnByNumber } from './hymnal';
+import { searchHymns, getHymnByNumber, getAllHymns } from './hymnal';
 
 describe('Hymnal Utility', () => {
+  it('should return all hymns', () => {
+    const hymns = getAllHymns();
+    expect(hymns.length).toBe(474);
+  });
+
   it('should find hymn by number', () => {
     const hymn = getHymnByNumber(1);
     expect(hymn).toBeDefined();
