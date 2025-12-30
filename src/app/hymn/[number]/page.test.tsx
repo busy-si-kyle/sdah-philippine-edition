@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import HymnPage from '@/app/hymn/[number]/page';
 import * as hymnal from '@/lib/hymnal';
 
@@ -31,6 +31,32 @@ describe('Hymn Detail Page', () => {
     expect(screen.getByText(/O worship the Lord in the beauty of holiness/i)).toBeDefined();
     // 'Worship' is in the title, lyrics, and category. 
     expect(screen.getAllByText(/Worship/i).length).toBeGreaterThan(1);
+  });
+
+  it('should toggle presentation mode', async () => {
+    const params = Promise.resolve({ number: '1' });
+    
+    // @ts-ignore
+    render(await HymnPage({ params }));
+
+    const presentButton = screen.getByText(/Present/i);
+    expect(presentButton).toBeDefined();
+
+    // Click present button
+    fireEvent.click(presentButton);
+
+    // Should see "Exit Presentation" or similar
+    const exitButton = screen.getByRole('button', { name: /Exit/i });
+    expect(exitButton).toBeDefined();
+
+    // Click exit button
+    fireEvent.click(exitButton);
+
+    // Should see "Present" button again
+    expect(screen.getByText(/Present/i)).toBeDefined();
+    
+    // The lyrics should still be visible
+    expect(screen.getByText(/O worship the Lord in the beauty of holiness/i)).toBeDefined();
   });
 
   it('should show not found for non-existent hymn', async () => {
