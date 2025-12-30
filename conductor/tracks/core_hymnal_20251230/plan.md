@@ -7,7 +7,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md) 6e95551
 
 ## Phase 2: Core Navigation & Search
-- [ ] Task: Design and implement the Home page with a prominent search bar
+- [x] Task: Design and implement the Home page with a prominent search bar 5f12f36
 - [ ] Task: Implement client-side search logic (Number, Title, Lyrics)
 - [ ] Task: Implement "Browse by Category" functionality
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
