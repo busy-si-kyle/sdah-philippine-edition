@@ -51,7 +51,38 @@ describe('Home Page', () => {
     
     // Results should be gone (or not visible)
     await waitFor(() => {
+      // Results should be gone
       expect(screen.queryByText(/O Worship the Lord/i)).toBeNull();
+      // "Category: Worship" header should be gone
+      expect(screen.queryByText(/Category: Worship/i)).toBeNull();
+    });
+  });
+
+  it('should filter by missing sheet music', async () => {
+    render(<Home />);
+    
+    const toggle = screen.getByText(/Missing Sheet Music/i);
+    fireEvent.click(toggle);
+
+    await waitFor(() => {
+      // Should show results
+      expect(screen.getByText(/results found/i)).toBeDefined();
+    });
+  });
+
+  it('should search with missing sheet music filter enabled', async () => {
+    render(<Home />);
+    
+    // Enable filter first
+    const toggle = screen.getByText(/Missing Sheet Music/i);
+    fireEvent.click(toggle);
+
+    const input = screen.getByPlaceholderText(/search hymns/i);
+    fireEvent.change(input, { target: { value: 'Worship' } });
+
+    await waitFor(() => {
+      expect(screen.getByText(/results found/i)).toBeDefined();
+      expect(screen.getAllByText(/O Worship the Lord/i).length).toBeGreaterThan(0);
     });
   });
 });

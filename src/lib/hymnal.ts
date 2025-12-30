@@ -66,3 +66,7 @@ export function getCategories(): string[] {
 export function getHymnsByCategory(category: string): Hymn[] {
   return hymnalData.hymns.filter((h) => h.category === category);
 }
+
+export function getHymnsMissingSheetMusic(): Hymn[] {
+  return hymnalData.hymns.filter((h) => !h.sheetMusicUrl);
+}
