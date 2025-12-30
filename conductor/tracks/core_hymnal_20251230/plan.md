@@ -8,9 +8,9 @@
 
 ## Phase 2: Core Navigation & Search
 - [x] Task: Design and implement the Home page with a prominent search bar 5f12f36
-- [x] Task: Implement client-side search logic (Number, Title, Lyrics) 1bf5827
-- [~] Task: Implement "Browse by Category" functionality
-- [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
+- [x] Implement client-side search logic (Number, Title, Lyrics) 1bf5827 (Added title prioritization 2b0a8a1)
+- [x] Task: Implement "Browse by Category" functionality (Skipped per user request)
+- [~] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: Hymn Details & Viewing Experience
 - [ ] Task: Build the individual Hymn detail page layout
