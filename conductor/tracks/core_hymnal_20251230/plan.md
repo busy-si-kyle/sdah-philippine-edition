@@ -13,7 +13,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md) 220c76c
 
 ## Phase 3: Hymn Details & Viewing Experience
-- [ ] Task: Build the individual Hymn detail page layout
+- [x] Task: Build the individual Hymn detail page layout f789117
 - [ ] Task: Implement responsive lyrics display with "Presentation Mode"
 - [ ] Task: Integrate sheet music display and PDF download links (Google Drive)
 - [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
