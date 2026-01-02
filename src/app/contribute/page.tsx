@@ -1,18 +1,25 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { ChevronLeft, Upload, CheckCircle2, FileText, Globe } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function ContributePage() {
+  const router = useRouter();
+
   return (
     <div className="flex min-h-screen flex-col items-center bg-zinc-50 dark:bg-zinc-950">
       <main className="flex w-full flex-col gap-12 py-8 px-[5%] sm:px-[10%] lg:px-[15%]">
         <div className="flex items-center gap-2">
-          <Link href="/">
-            <Button variant="ghost" size="sm" className="gap-1">
-              <ChevronLeft className="h-4 w-4" />
-              Back
-            </Button>
-          </Link>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="gap-1"
+            onClick={() => router.back()}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Back
+          </Button>
         </div>
 
         <div className="flex flex-col items-center gap-12 text-center">
