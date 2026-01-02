@@ -6,26 +6,17 @@ import { Button } from "@/components/ui/button";
 import { searchHymns } from "@/lib/hymnal";
 import { Hymn } from "@/types/hymn";
 import Link from "next/link";
-import { Music2, Search, FilterX } from "lucide-react";
+import { Search, FilterX } from "lucide-react";
 
 export default function Home() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Hymn[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [showMissingOnly, setShowMissingOnly] = useState(false);
 
-  const applySearch = (searchQuery: string, missingOnly: boolean) => {
+  const applySearch = (searchQuery: string) => {
     if (searchQuery.trim()) {
-      let searchResults = searchHymns(searchQuery);
-      if (missingOnly) {
-        searchResults = searchResults.filter(h => !h.sheetMusicUrl);
-      }
+      const searchResults = searchHymns(searchQuery);
       setResults(searchResults);
-      setHasSearched(true);
-    } else if (missingOnly) {
-      // If query is empty but "missing only" is enabled, show all missing
-      const allHymns = searchHymns(""); // gets all
-      setResults(allHymns.filter(h => !h.sheetMusicUrl));
       setHasSearched(true);
     } else {
       setResults([]);
@@ -35,13 +26,7 @@ export default function Home() {
 
   const handleSearch = (value: string) => {
     setQuery(value);
-    applySearch(value, showMissingOnly);
-  };
-
-  const toggleMissingOnly = () => {
-    const nextValue = !showMissingOnly;
-    setShowMissingOnly(nextValue);
-    applySearch(query, nextValue);
+    applySearch(value);
   };
 
   return (
@@ -72,30 +57,12 @@ export default function Home() {
               Search
             </Button>
           </div>
-
-          <div className="flex justify-center">
-            <Button 
-              variant={showMissingOnly ? "default" : "outline"} 
-              size="sm" 
-              onClick={toggleMissingOnly}
-              className="gap-2 rounded-full h-9"
-            >
-              <Music2 className="h-4 w-4" />
-              Missing Sheet Music
-            </Button>
-          </div>
         </div>
 
         {hasSearched && (
           <div className="w-full space-y-4">
             <div className="flex justify-between items-center text-sm text-zinc-500">
               <p>{results.length} results found</p>
-              {showMissingOnly && (
-                <span className="flex items-center gap-1 text-primary font-medium">
-                  <Music2 className="h-3 w-3" />
-                  Filtering for missing sheets
-                </span>
-              )}
             </div>
 
             {results.length > 0 ? (
@@ -132,7 +99,7 @@ export default function Home() {
                 <div className="space-y-1">
                   <p className="text-lg font-medium text-zinc-900 dark:text-zinc-50">No hymns found</p>
                   <p className="text-zinc-500">
-                    Try searching for something else or {showMissingOnly ? "disable the missing sheet music filter" : "check your spelling"}.
+                    Try searching for something else or check your spelling.
                   </p>
                 </div>
               </div>
