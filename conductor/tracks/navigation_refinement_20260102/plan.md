@@ -7,7 +7,7 @@
     - [ ] Update tests in `src/app/page.test.tsx` to remove dependencies on the "Search" button.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
-## Phase 2: Hymn Navigation (Hymn Detail Page)
+## Phase 2: Hymn Navigation (Hymn Detail Page) [checkpoint: fb912b1]
 - [x] Task: Implement Navigation Arrows in `src/app/hymn/[number]/HymnView.tsx` 3c76b7a
     - [x] Calculate `prevNumber` and `nextNumber`.
     - [x] Determine max hymn number from dataset.
