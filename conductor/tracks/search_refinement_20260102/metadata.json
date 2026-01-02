@@ -1,0 +1,8 @@
+{
+  "track_id": "search_refinement_20260102",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-01-02T16:32:00Z",
+  "updated_at": "2026-01-02T16:32:00Z",
+  "description": "Remove 'Missing Music Sheet' button from home page, simplify search results to number/title only, and implement loose number matching."
+}
