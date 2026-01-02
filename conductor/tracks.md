@@ -16,7 +16,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 
 
+
 ---
 
-## [~] Track: Navigation & Mobile UX Refinement
-*Link: [./conductor/tracks/mobile_ux_refinement_20260102/](./conductor/tracks/mobile_ux_refinement_20260102/)*
+## [~] Track: Contribution Flow Update
+*Link: [./conductor/tracks/contribution_flow_20260102/](./conductor/tracks/contribution_flow_20260102/)*

@@ -17,10 +17,10 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md) 01277de, 7ccb9a4
 
 ## Phase 3: Mobile Swipe Navigation
-- [ ] Task: Implement Touch Swipe Detection in `HymnView.tsx`
-    - [ ] Install or implement a simple swipe hook/handler (e.g., using `onTouchStart` and `onTouchEnd`).
-    - [ ] Logic: Swipe Left -> Next Hymn, Swipe Right -> Previous Hymn.
-    - [ ] Ensure it doesn't trigger on small vertical scrolls.
-- [ ] Task: Add Swipe Navigation Tests
-    - [ ] Write integration tests for swipe functionality using `@testing-library/user-event` (simulating touch).
-- [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
+- [x] Task: Implement Touch Swipe Detection in `HymnView.tsx` a984490
+    - [x] Install or implement a simple swipe hook/handler (e.g., using `onTouchStart` and `onTouchEnd`).
+    - [x] Logic: Swipe Left -> Next Hymn, Swipe Right -> Previous Hymn.
+    - [x] Ensure it doesn't trigger on small vertical scrolls.
+- [x] Task: Add Swipe Navigation Tests a984490
+    - [x] Write integration tests for swipe functionality using `@testing-library/user-event` (simulating touch).
+- [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md) a984490
