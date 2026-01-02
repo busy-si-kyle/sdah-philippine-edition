@@ -75,8 +75,8 @@ export default function HymnView({ hymn }: HymnViewProps) {
 
   return (
     <div className="w-full flex flex-col items-center gap-12 relative">
-      {/* Navigation Arrows - Desktop/Floating */}
-      <div className="fixed inset-y-0 left-0 flex items-center p-4 z-10">
+      {/* Navigation Arrows - Desktop/Floating (Hidden on mobile/tablet) */}
+      <div className="fixed inset-y-0 left-0 hidden lg:flex items-center p-4 z-10">
         {prevNumber ? (
           <Link href={`/hymn/${prevNumber}`} title="Previous Hymn (Left Arrow)">
             <Button variant="ghost" size="icon" className="h-12 w-12 rounded-full bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm shadow-md hover:bg-white dark:hover:bg-zinc-900">
@@ -89,7 +89,7 @@ export default function HymnView({ hymn }: HymnViewProps) {
         )}
       </div>
 
-      <div className="fixed inset-y-0 right-0 flex items-center p-4 z-10">
+      <div className="fixed inset-y-0 right-0 hidden lg:flex items-center p-4 z-10">
         {nextNumber ? (
           <Link href={`/hymn/${nextNumber}`} title="Next Hymn (Right Arrow)">
             <Button variant="ghost" size="icon" className="h-12 w-12 rounded-full bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm shadow-md hover:bg-white dark:hover:bg-zinc-900">
