@@ -18,12 +18,12 @@ export function searchHymns(query: string): Hymn[] {
   const isNumber = !isNaN(Number(q));
 
   return hymnalData.hymns.filter((hymn) => {
-    // Loose number match
-    if (hymn.number.toString().includes(q)) {
-      return true;
+    if (isNumber) {
+      // If query is a number, only match against hymn number (loose match)
+      return hymn.number.toString().includes(q);
     }
 
-    // Title match
+    // Otherwise, match title or lyrics
     if (hymn.title.toLowerCase().includes(q)) {
       return true;
     }

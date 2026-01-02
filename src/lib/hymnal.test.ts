@@ -28,6 +28,13 @@ describe('Hymnal Utility', () => {
     expect(numbers.length).toBeGreaterThan(1);
   });
 
+  it('should NOT match lyrics or title when query is a number', () => {
+    // Hymn 2 has "1." in its lyrics but "2" does not contain "1"
+    const results = searchHymns('1');
+    const hasHymn2 = results.some(h => h.number === 2);
+    expect(hasHymn2).toBe(false);
+  });
+
   it('should search by title', () => {
     const results = searchHymns('Worship the Lord');
     expect(results.length).toBeGreaterThan(0);
