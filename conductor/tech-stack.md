@@ -7,7 +7,7 @@
 
 ## Data & Search
 - **Data Storage:** Static JSON files containing hymn metadata (number, title, category), lyrics, and links.
-- **Search Implementation:** Client-side search with specific logic: number queries match only hymn numbers (contains match), while text queries match titles and lyrics.
+- **Search Implementation:** Client-side search with specific logic: number queries match only hymn numbers (contains match), while text queries match titles and lyrics. Search is triggered via 'Enter' key or as-you-type.
 
 ## Sheet Music & Downloads
 - **File Hosting:** PDF music sheets and images will be hosted/linked via Google Drive as per the maintainer's workflow.
