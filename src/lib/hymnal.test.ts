@@ -18,6 +18,16 @@ describe('Hymnal Utility', () => {
     expect(results[0].number).toBe(1);
   });
 
+  it('should search by loose number (contains string)', () => {
+    // Searching for '1' should match '1', '11', '21', '101', etc.
+    const results = searchHymns('1');
+    const numbers = results.map(h => h.number);
+    expect(numbers).toContain(1);
+    expect(numbers).toContain(11); // e.g., "The Morning Watch"
+    expect(numbers).toContain(21); // e.g., "Immortal, Invisible, God Only Wise"
+    expect(numbers.length).toBeGreaterThan(1);
+  });
+
   it('should search by title', () => {
     const results = searchHymns('Worship the Lord');
     expect(results.length).toBeGreaterThan(0);

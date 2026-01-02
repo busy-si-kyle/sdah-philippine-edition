@@ -18,8 +18,8 @@ export function searchHymns(query: string): Hymn[] {
   const isNumber = !isNaN(Number(q));
 
   return hymnalData.hymns.filter((hymn) => {
-    // Exact number match
-    if (isNumber && hymn.number === Number(q)) {
+    // Loose number match
+    if (hymn.number.toString().includes(q)) {
       return true;
     }
 
