@@ -78,9 +78,6 @@ export default function Home() {
                         <h3 className="font-bold text-lg text-zinc-900 dark:text-zinc-50 group-hover:text-primary transition-colors">
                           {hymn.number}. {hymn.title}
                         </h3>
-                        <p className="text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">
-                          {hymn.lyrics}
-                        </p>
                       </div>
                       {hymn.category && (
                         <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 bg-zinc-50 dark:bg-zinc-800 border dark:border-zinc-700 px-2 py-1 rounded-md shrink-0">
