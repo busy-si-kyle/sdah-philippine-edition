@@ -1,6 +1,13 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import ContributePage from '@/app/contribute/page';
+
+// Mock next/navigation
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    back: vi.fn(),
+  }),
+}));
 
 describe('Contribution Page', () => {
   it('should render contribution guidelines', () => {
