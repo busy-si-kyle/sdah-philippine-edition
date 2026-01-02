@@ -10,5 +10,12 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [~] Track: Search UI Refinement & Logic Update
+## [x] Track: Search UI Refinement & Logic Update
 *Link: [./conductor/tracks/search_refinement_20260102/](./conductor/tracks/search_refinement_20260102/)*
+
+
+
+---
+
+## [~] Track: Search UX Refinement & Hymn Navigation
+*Link: [./conductor/tracks/navigation_refinement_20260102/](./conductor/tracks/navigation_refinement_20260102/)*

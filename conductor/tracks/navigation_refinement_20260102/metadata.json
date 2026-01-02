@@ -1,0 +1,8 @@
+{
+  "track_id": "navigation_refinement_20260102",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-01-02T18:16:00Z",
+  "updated_at": "2026-01-02T18:16:00Z",
+  "description": "Remove Search button from Home page and add floating Previous/Next navigation with keyboard shortcuts to Hymn Detail pages."
+}

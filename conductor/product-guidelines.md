@@ -9,5 +9,6 @@
 ## Layout & User Interface
 - **Hymn Page Priority:** 
     - **Lyrics First:** Individual hymn pages should prioritize clear, large-font lyrics as the central content.
-    - **Action-Oriented Header:** Prominent, easy-to-find buttons for "Download PDF," "Help with Sheet Music," and "Share" should be placed at the top of the hymn page to facilitate immediate action and support the contribution goals of the project.
+    - **Action-Oriented Header:** Prominent, easy-to-find buttons for "View Sheet Music," "Present," and "How to Contribute" should be placed at the top of the hymn page to facilitate immediate action and support the core worship and contribution goals.
+    - **Simplified Search Results:** To maintain modern minimalism and clarity, search results should only display the hymn number and title, omitting lyrics snippets.
 - **Modern Minimalism:** Adhere to the visual identity of high contrast and sans-serif typography to ensure maximum readability across various devices and lighting conditions.

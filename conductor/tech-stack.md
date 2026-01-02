@@ -7,10 +7,11 @@
 
 ## Data & Search
 - **Data Storage:** Static JSON files containing hymn metadata (number, title, category), lyrics, and links.
-- **Search Implementation:** Client-side search for instantaneous results across titles, numbers, and full lyrics, leveraging the static nature of the hymnal data for zero server-side latency.
+- **Search Implementation:** Client-side search with specific logic: number queries match only hymn numbers (contains match), while text queries match titles and lyrics.
 
 ## Sheet Music & Downloads
 - **File Hosting:** PDF music sheets and images will be hosted/linked via Google Drive as per the maintainer's workflow.
+- **Local Assets:** High-quality PNG sheet music assets are stored in the project and indexed via a build-time mapping script.
 - **Contribution Workflow:** The website will feature a prominent section directing contributors to provide sheet music links or files via the established Google Drive process.
 
 ## Deployment

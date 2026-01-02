@@ -44,7 +44,7 @@ export function groupSheetMusicFiles(files: string[]): SheetMusicMap {
 }
 
 function main() {
-  const sourceDir = path.join(process.cwd(), 'src', 'sheets', 'fil');
+  const sourceDir = path.join(process.cwd(), 'public', 'sheets', 'fil');
   const targetFile = path.join(process.cwd(), 'src', 'data', 'sheet_music_map.json');
 
   console.log(`Scanning ${sourceDir}...`);
