@@ -1,11 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Upload, CheckCircle2, FileText, Globe } from "lucide-react";
+import { ChevronLeft, Upload, Music, Settings, Info, ExternalLink } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ContributePage() {
   const router = useRouter();
+
+  const GDRIVE_LINK = "https://drive.google.com/drive/folders/19XfpbBjHDGNiRGLcqJCe_ae1L2lxRSUa?usp=drive_link";
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-zinc-50 dark:bg-zinc-950">
@@ -28,70 +31,83 @@ export default function ContributePage() {
               How to Contribute
             </h1>
             <p className="text-xl text-zinc-500 max-w-2xl mx-auto leading-relaxed">
-              Help us complete the digital collection of the SDA Hymnal Philippine Edition. 
-              We are currently looking for sheet music for many of our hymns.
+              Help us complete the digital collection of the SDA Hymnal Philippine Edition by transcribing hymns into MuseScore format.
             </p>
           </div>
 
-          <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            <div className="space-y-4 p-6 bg-white dark:bg-zinc-900 rounded-2xl border dark:border-zinc-800 shadow-sm">
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                <FileText className="h-6 w-6" />
+          {/* 3-Step Flow */}
+          <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            <div className="space-y-4 p-6 bg-white dark:bg-zinc-900 rounded-2xl border dark:border-zinc-800 shadow-sm flex flex-col">
+              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <Music className="h-6 w-6" />
               </div>
-              <h3 className="font-bold text-lg">1. Prepare File</h3>
-              <p className="text-zinc-500 text-sm leading-relaxed">
-                Scan or create a high-quality PDF of the sheet music. Ensure all lyrics and notes are clearly legible.
+              <h3 className="font-bold text-lg">1. Transcribe</h3>
+              <p className="text-zinc-500 text-sm leading-relaxed flex-1">
+                Transcribe the hymn into MuseScore. Your work must strictly match the SDA Hymnal Philippine Edition, including all notes, rests, and lyrics.
               </p>
             </div>
 
-            <div className="space-y-4 p-6 bg-white dark:bg-zinc-900 rounded-2xl border dark:border-zinc-800 shadow-sm">
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                <Globe className="h-6 w-6" />
+            <div className="space-y-4 p-6 bg-white dark:bg-zinc-900 rounded-2xl border dark:border-zinc-800 shadow-sm flex flex-col">
+              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <Settings className="h-6 w-6" />
               </div>
-              <h3 className="font-bold text-lg">2. Upload</h3>
-              <p className="text-zinc-500 text-sm leading-relaxed">
-                Upload your file to your personal Google Drive and set the sharing permissions to "Anyone with the link can view".
-              </p>
+              <h3 className="font-bold text-lg">2. Format the Score</h3>
+              <div className="text-zinc-500 text-xs space-y-3 leading-relaxed flex-1">
+                <p>Apply these settings to ensure your submission is project-ready (Optional):</p>
+                <ul className="space-y-1 list-disc pl-4">
+                  <li><strong>Page Size:</strong> Letter / ANSI A</li>
+                  <li><strong>Scaling:</strong> 1.850 mm (Staff Space)</li>
+                  <li><strong>Margins:</strong> 10 mm (All sides)</li>
+                </ul>
+                <div className="pt-2 border-t dark:border-zinc-800">
+                  <p className="font-semibold text-zinc-700 dark:text-zinc-300">Typography:</p>
+                  <ul className="space-y-1">
+                    <li>Title: Edwin • Bold • 24 pt</li>
+                    <li>Lyrics: Edwin • 10 pt • Centered</li>
+                  </ul>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-4 p-6 bg-white dark:bg-zinc-900 rounded-2xl border dark:border-zinc-800 shadow-sm">
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+            <div className="space-y-4 p-6 bg-white dark:bg-zinc-900 rounded-2xl border dark:border-zinc-800 shadow-sm flex flex-col">
+              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
                 <Upload className="h-6 w-6" />
               </div>
-              <h3 className="font-bold text-lg">3. Submit</h3>
-              <p className="text-zinc-500 text-sm leading-relaxed">
-                Send the shared link along with the hymn number and title via our submission channel.
+              <h3 className="font-bold text-lg">3. Upload</h3>
+              <p className="text-zinc-500 text-sm leading-relaxed flex-1">
+                Upload your completed <strong>.mscz</strong> file directly to our project folder via Google Drive.
+              </p>
+              <Link href={GDRIVE_LINK} target="_blank" rel="noopener noreferrer" className="pt-4">
+                <Button className="w-full gap-2 rounded-xl">
+                  Upload to Google Drive <ExternalLink className="h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Technical Note */}
+          <div className="w-full max-w-3xl p-6 bg-amber-50 dark:bg-amber-950/20 rounded-2xl border border-amber-200 dark:border-amber-900/50 text-left flex gap-4">
+            <Info className="h-6 w-6 text-amber-600 dark:text-amber-500 shrink-0" />
+            <div className="space-y-1">
+              <h4 className="font-bold text-amber-900 dark:text-amber-400">Technical Note</h4>
+              <p className="text-amber-800 dark:text-amber-500/80 text-sm leading-relaxed">
+                If you find the formatting steps difficult, don't worry! As long as the <strong>notation of notes and lyrics</strong> are accurate and match the hymnal, your contribution is highly valued and will be accepted.
               </p>
             </div>
           </div>
 
-          <div className="w-full max-w-2xl space-y-8 py-12 border-t border-zinc-200 dark:border-zinc-800 text-left">
-            <h2 className="text-3xl font-bold text-center">Submission Criteria</h2>
-            
-            <ul className="space-y-4">
-              {[
-                "High-resolution PDF format (preferred) or clear images.",
-                "Must match the SDA Hymnal Philippine Edition version.",
-                "Full lyrics must be included if applicable.",
-                "Permission must be set to 'Anyone with the link' on Google Drive."
-              ].map((item, index) => (
-                <li key={index} className="flex gap-3 items-start">
-                  <CheckCircle2 className="h-6 w-6 text-primary shrink-0" />
-                  <span className="text-zinc-700 dark:text-zinc-300 leading-relaxed">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="bg-primary/5 dark:bg-primary/10 p-8 rounded-3xl max-w-2xl w-full">
-            <h3 className="text-xl font-bold mb-4">Ready to help?</h3>
-            <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-              If you have sheet music ready or want to coordinate a batch upload, 
-              please reach out through the established maintainer contact.
+          {/* Footer CTA */}
+          <div className="bg-primary/5 dark:bg-primary/10 p-10 rounded-3xl max-w-3xl w-full border border-primary/10">
+            <h3 className="text-2xl font-bold mb-4">Ready to help?</h3>
+            <p className="text-zinc-600 dark:text-zinc-400 mb-8 text-lg">
+              Click the button below to open the official contribution folder on Google Drive. 
+              You can drag and drop your MuseScore files there.
             </p>
-            <Button size="lg" className="rounded-full px-8">
-              Contact Maintainer
-            </Button>
+            <Link href={GDRIVE_LINK} target="_blank" rel="noopener noreferrer">
+              <Button size="lg" className="rounded-full px-10 h-14 text-lg shadow-lg hover:shadow-xl transition-all">
+                Upload to Google Drive
+              </Button>
+            </Link>
           </div>
         </div>
       </main>
