@@ -42,8 +42,14 @@ export default function Home() {
         </div>
 
         <div className="w-full space-y-4">
-          <div className="w-full flex gap-2">
-            <div className="relative flex-1">
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault();
+              applySearch(query);
+            }} 
+            className="w-full"
+          >
+            <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
               <Input 
                 type="search" 
@@ -53,10 +59,7 @@ export default function Home() {
                 onChange={(e) => handleSearch(e.target.value)}
               />
             </div>
-            <Button size="lg" className="h-12 px-6 rounded-xl">
-              Search
-            </Button>
-          </div>
+          </form>
         </div>
 
         {hasSearched && (
