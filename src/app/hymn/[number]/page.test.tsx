@@ -18,6 +18,11 @@ vi.mock('@/lib/hymnal', () => ({
   }),
 }));
 
+// Mock the sheet music map
+vi.mock('@/data/sheet_music_map.json', () => ({
+  default: {}
+}));
+
 describe('Hymn Detail Page', () => {
   it('should render hymn details correctly', async () => {
     // In Next.js App Router, page components receive params as a promise in recent versions, 
