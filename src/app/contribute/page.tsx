@@ -95,20 +95,6 @@ export default function ContributePage() {
               </p>
             </div>
           </div>
-
-          {/* Footer CTA */}
-          <div className="bg-primary/5 dark:bg-primary/10 p-10 rounded-3xl max-w-3xl w-full border border-primary/10">
-            <h3 className="text-2xl font-bold mb-4">Ready to help?</h3>
-            <p className="text-zinc-600 dark:text-zinc-400 mb-8 text-lg">
-              Click the button below to open the official contribution folder on Google Drive. 
-              You can drag and drop your MuseScore files there.
-            </p>
-            <Link href={GDRIVE_LINK} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="rounded-full px-10 h-14 text-lg shadow-lg hover:shadow-xl transition-all">
-                Upload to Google Drive
-              </Button>
-            </Link>
-          </div>
         </div>
       </main>
     </div>

@@ -19,7 +19,6 @@ describe('Contribute Page - New Content', () => {
     
     // Step 2: Format
     expect(screen.getByText(/2\. Format the Score/i)).toBeDefined();
-    // The scaling text is split by strong/other tags potentially or just check for existence
     expect(screen.getByText(/Scaling:/i)).toBeDefined();
     expect(screen.getByText(/1\.850 mm/i)).toBeDefined();
     
@@ -31,23 +30,19 @@ describe('Contribute Page - New Content', () => {
 
   it('should display the technical note about notation priority', () => {
     render(<ContributePage />);
-    // Partial match since text is split by strong
     expect(screen.getByText(/If you find the formatting steps difficult/i)).toBeDefined();
     expect(screen.getByText(/notation of notes and lyrics/i)).toBeDefined();
   });
 
-  it('should have the "Upload to Google Drive" buttons with correct link', () => {
+  it('should have the "Upload to Google Drive" button with correct link', () => {
     render(<ContributePage />);
-    const ctaButtons = screen.getAllByRole('link', { name: /Upload to Google Drive/i });
-    expect(ctaButtons.length).toBeGreaterThan(0);
-    ctaButtons.forEach(btn => {
-      expect(btn.getAttribute('href')).toBe('https://drive.google.com/drive/folders/19XfpbBjHDGNiRGLcqJCe_ae1L2lxRSUa?usp=drive_link');
-    });
+    const ctaButton = screen.getByRole('link', { name: /Upload to Google Drive/i });
+    expect(ctaButton.getAttribute('href')).toBe('https://drive.google.com/drive/folders/19XfpbBjHDGNiRGLcqJCe_ae1L2lxRSUa?usp=drive_link');
   });
 
-  it('should NOT display the "Contact Maintainer" button', () => {
+  it('should NOT display the "Contact Maintainer" or "Ready to help?" sections', () => {
     render(<ContributePage />);
-    const oldButton = screen.queryByRole('button', { name: /Contact Maintainer/i });
-    expect(oldButton).toBeNull();
+    expect(screen.queryByRole('button', { name: /Contact Maintainer/i })).toBeNull();
+    expect(screen.queryByText(/Ready to help\?/i)).toBeNull();
   });
 });
