@@ -7,7 +7,7 @@
     - [ ] Update unit tests in `src/app/contribute/page.test.tsx`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
-## Phase 2: Hymn Detail Page Fixes & Arrows Visibility
+## Phase 2: Hymn Detail Page Fixes & Arrows Visibility [checkpoint: c1a376a]
 - [x] Task: Fix Mobile "Back" Button responsiveness 01277de
     - [x] Inspect `src/app/hymn/[number]/page.tsx` or `HymnView.tsx` for button implementation.
     - [x] Ensure the button uses a standard `Link` or correctly handles touch events.
