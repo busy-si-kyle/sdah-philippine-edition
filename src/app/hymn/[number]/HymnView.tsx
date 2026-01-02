@@ -19,11 +19,41 @@ export default function HymnView({ hymn }: HymnViewProps) {
   const [isPresenting, setIsPresenting] = useState(false);
   const router = useRouter();
 
+  // Swipe detection state
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  // Minimum swipe distance (pixels)
+  const minSwipeDistance = 50;
+
   const localSheetImages = sheetMusicMap[hymn.number.toString()];
   const hasLocalSheet = !!localSheetImages && localSheetImages.length > 0;
 
   const prevNumber = hymn.number > 1 ? hymn.number - 1 : null;
   const nextNumber = hymn.number < MAX_HYMN_NUMBER ? hymn.number + 1 : null;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && nextNumber) {
+      router.push(`/hymn/${nextNumber}`);
+    } else if (isRightSwipe && prevNumber) {
+      router.push(`/hymn/${prevNumber}`);
+    }
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -74,7 +104,13 @@ export default function HymnView({ hymn }: HymnViewProps) {
   }
 
   return (
-    <div className="w-full flex flex-col items-center gap-12 relative">
+    <div 
+      data-testid="hymn-view-container"
+      className="w-full flex flex-col items-center gap-12 relative"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       {/* Navigation Arrows - Desktop/Floating (Hidden on mobile/tablet) */}
       <div className="fixed inset-y-0 left-0 hidden lg:flex items-center p-4 z-10">
         {prevNumber ? (
