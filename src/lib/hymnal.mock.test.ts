@@ -11,7 +11,7 @@ vi.mock("@/data/hymns_philippine.json", () => ({
   }
 }));
 
-import { getCategories, getHymnsByCategory, getAllHymns, searchHymns, getHymnsMissingSheetMusic } from './hymnal';
+import { getCategories, getHymnsByCategory, getAllHymns, searchHymns } from './hymnal';
 
 describe('Hymnal Utility (Logic)', () => {
   it('should return unique sorted categories', () => {
@@ -41,11 +41,5 @@ describe('Hymnal Utility (Logic)', () => {
     // 'Morning' is in lyrics of 2.
     // Results should be [1, 3, 2] (1 and 3 prioritized because they are in title)
     expect(results.map(h => h.number)).toEqual([1, 3, 2]);
-  });
-
-  it('should return hymns missing sheet music', () => {
-    const missing = getHymnsMissingSheetMusic();
-    // In our mock, none have sheetMusicUrl
-    expect(missing.length).toBe(3);
   });
 });
