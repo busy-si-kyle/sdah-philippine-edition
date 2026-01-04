@@ -21,7 +21,7 @@ To provide a digital home for the SDA Hymnal Philippine Edition, making hymns ea
     - Dedicated full-page in-browser sheet music viewer for local assets.
     - Status tracking for hymns with and without sheet music.
 - **Community Contribution:**
-    - A dedicated submission workflow for users to upload missing sheet music or report issues.
+    - A dedicated MuseScore transcription workflow and an integrated issue reporting feature.
 
 ## Visual Identity
 - **Modern & Minimalist:** A clean, high-contrast interface using sans-serif typography. Priority is given to readability and whitespace to ensure a distraction-free experience for worship and music reading.

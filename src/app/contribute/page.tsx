@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, Upload, Music, Settings, Info, ExternalLink } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { AboutModal } from "@/components/AboutModal";
+import { ReportIssueForm } from "@/components/ReportIssueForm";
 
 export default function ContributePage() {
   const router = useRouter();
@@ -13,16 +15,19 @@ export default function ContributePage() {
   return (
     <div className="flex min-h-screen flex-col items-center bg-zinc-50 dark:bg-zinc-950">
       <main className="flex w-full flex-col gap-12 py-8 px-[5%] sm:px-[10%] lg:px-[15%]">
-        <div className="flex items-center gap-2">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="gap-1"
-            onClick={() => router.back()}
-          >
-            <ChevronLeft className="h-4 w-4" />
-            Back
-          </Button>
+        <div className="space-y-8">
+          <div className="flex items-center justify-between gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-1 pl-2 pr-4 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
+              onClick={() => router.back()}
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Back
+            </Button>
+            <AboutModal />
+          </div>
         </div>
 
         <div className="flex flex-col items-center gap-12 text-center">
@@ -37,7 +42,7 @@ export default function ContributePage() {
 
           {/* 3-Step Flow */}
           <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            <div className="space-y-4 p-6 bg-white dark:bg-zinc-900 rounded-2xl border dark:border-zinc-800 shadow-sm flex flex-col">
+            <div className="space-y-4 p-6 bg-white dark:bg-zinc-900 rounded-2xl border dark:border-zinc-800 shadow-sm flex flex-col hover:-translate-y-1 hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-300">
               <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
                 <Music className="h-6 w-6" />
               </div>
@@ -47,7 +52,7 @@ export default function ContributePage() {
               </p>
             </div>
 
-            <div className="space-y-4 p-6 bg-white dark:bg-zinc-900 rounded-2xl border dark:border-zinc-800 shadow-sm flex flex-col">
+            <div className="space-y-4 p-6 bg-white dark:bg-zinc-900 rounded-2xl border dark:border-zinc-800 shadow-sm flex flex-col hover:-translate-y-1 hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-300">
               <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
                 <Settings className="h-6 w-6" />
               </div>
@@ -69,7 +74,7 @@ export default function ContributePage() {
               </div>
             </div>
 
-            <div className="space-y-4 p-6 bg-white dark:bg-zinc-900 rounded-2xl border dark:border-zinc-800 shadow-sm flex flex-col">
+            <div className="space-y-4 p-6 bg-white dark:bg-zinc-900 rounded-2xl border dark:border-zinc-800 shadow-sm flex flex-col hover:-translate-y-1 hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-300">
               <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
                 <Upload className="h-6 w-6" />
               </div>
@@ -78,7 +83,7 @@ export default function ContributePage() {
                 Upload your completed <strong>.mscz</strong> file directly to our project folder via Google Drive.
               </p>
               <Link href={GDRIVE_LINK} target="_blank" rel="noopener noreferrer" className="pt-4">
-                <Button className="w-full gap-2 rounded-xl">
+                <Button className="w-full gap-2 rounded-xl shadow-md hover:shadow-lg transition-all hover:scale-[1.02]">
                   Upload to Google Drive <ExternalLink className="h-4 w-4" />
                 </Button>
               </Link>
@@ -95,6 +100,10 @@ export default function ContributePage() {
               </p>
             </div>
           </div>
+        </div>
+
+        <div className="w-full pt-12 border-t border-zinc-200 dark:border-zinc-800">
+          <ReportIssueForm />
         </div>
       </main>
     </div>

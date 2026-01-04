@@ -57,4 +57,9 @@ describe('Home Page', () => {
       expect(screen.queryByText(/Category: Worship/i)).toBeNull();
     });
   });
+
+  it('should NOT render the AboutSection', () => {
+    render(<Home />);
+    expect(screen.queryByText(/About this Project/i)).toBeNull();
+  });
 });

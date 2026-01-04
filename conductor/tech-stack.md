@@ -12,7 +12,8 @@
 ## Sheet Music & Downloads
 - **File Hosting:** PDF music sheets and images will be hosted/linked via Google Drive as per the maintainer's workflow.
 - **Local Assets:** High-quality PNG sheet music assets are stored in the project and indexed via a build-time mapping script.
-- **Contribution Workflow:** The website will feature a prominent section directing contributors to provide sheet music links or files via the established Google Drive process.
+- **Contribution Workflow:** A standardized MuseScore transcription flow directing contributors to upload `.mscz` files to a specific project folder on Google Drive.
 
 ## Deployment
 - **Platform:** Vercel (Recommended for Next.js) or similar static hosting providers.
+- **Security Auditing:** Regular automated scans using `npm audit` and manual logic reviews to ensure project integrity.

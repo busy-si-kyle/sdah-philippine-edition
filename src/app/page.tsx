@@ -42,18 +42,18 @@ export default function Home() {
         </div>
 
         <div className="w-full space-y-4">
-          <form 
+          <form
             onSubmit={(e) => {
               e.preventDefault();
               applySearch(query);
-            }} 
+            }}
             className="w-full"
           >
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-              <Input 
-                type="search" 
-                placeholder="Search hymns by title, number, or lyrics..." 
+              <Input
+                type="search"
+                placeholder="Search hymns by title, number, or lyrics..."
                 className="w-full h-12 text-lg pl-10"
                 value={query}
                 onChange={(e) => handleSearch(e.target.value)}
@@ -71,10 +71,10 @@ export default function Home() {
             {results.length > 0 ? (
               <div className="grid gap-4">
                 {results.map((hymn) => (
-                  <Link 
+                  <Link
                     key={hymn.number}
                     href={`/hymn/${hymn.number}`}
-                    className="p-5 rounded-2xl border bg-white dark:bg-zinc-900 dark:border-zinc-800 hover:border-primary transition-all group shadow-sm hover:shadow-md"
+                    className="p-5 rounded-2xl border bg-white dark:bg-zinc-900 dark:border-zinc-800 hover:border-primary/50 transition-all duration-300 group shadow-sm hover:shadow-lg hover:-translate-y-1"
                   >
                     <div className="flex justify-between items-start gap-4">
                       <div className="space-y-1">
