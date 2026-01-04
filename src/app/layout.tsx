@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,8 +14,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SDAH Philippine Edition",
-  description: "Digital collection of the SDA Hymnal Philippine Edition",
+  metadataBase: new URL("https://sdah-philippine-edition.vercel.app"),
+  title: "SDA Hymnal Philippine Edition",
+  description: "Digital collection of the SDA Hymnal Philippine Edition, featuring lyrics, sheet music, and translations.",
+  openGraph: {
+    title: "SDA Hymnal Philippine Edition",
+    description: "Digital collection of the SDA Hymnal Philippine Edition",
+    siteName: "SDA Hymnal PH",
+    type: "website",
+  },
+  verification: {
+    google: "google09a54106ded3a245", // Adding explicit tag as fallback/best practice
+  },
 };
 
 export default function RootLayout({
@@ -28,6 +39,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
