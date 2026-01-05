@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://sdah-philippine-edition.vercel.app"),
   title: "SDA Hymnal Philippine Edition",
-  description: "Digital collection of the SDA Hymnal Philippine Edition, featuring lyrics, sheet music, and translations.",
+  description: "Digital collection of the SDA Hymnal Philippine Edition, featuring lyrics, and sheet music.",
   openGraph: {
     title: "SDA Hymnal Philippine Edition",
     description: "Digital collection of the SDA Hymnal Philippine Edition",
