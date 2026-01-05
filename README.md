@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SDA Hymnal Philippine Edition
 
-## Getting Started
+Welcome to the **SDA Hymnal Philippine Edition** repository. This project is dedicated to providing a comprehensive digital collection of the Seventh-day Adventist Hymnal (Philippine Edition), featuring complete lyrics and accompanying music sheets.
 
-First, run the development server:
+🔗 **Access the Website:** [sdah-philippine-edition.vercel.app](https://sdah-philippine-edition.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🤝 Contributing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+We heartily welcome contributions from the community to help refine and complete this resource. We are currently seeking assistance with:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+*   **Completing Music Sheets:** Helping to organize and upload missing sheet music.
+*   **Refining Lyrics:** Correcting typographical errors and ensuring accuracy across all hymns.
 
-## Learn More
+### Get Involved
+If you would like to contribute, please access the necessary files and submission folders below:
 
-To learn more about Next.js, take a look at the following resources:
+📂 **[Contribution Resources (Google Drive)](https://drive.google.com/drive/folders/19XfpbBjHDGNiRGLcqJCe_ae1L2lxRSUa)**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🙏 Acknowledgements
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+A special thank you to **[isax5](https://github.com/isax5)** and their repository **[Hymnal-Xamarin](https://github.com/isax5/Hymnal-Xamarin)**. This project served as the primary source for the majority of the English music sheets and lyrics used in this application. We are grateful for their work in making these resources available.
