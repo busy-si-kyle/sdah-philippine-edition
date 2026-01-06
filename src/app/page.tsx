@@ -7,6 +7,7 @@ import { searchHymns } from "@/lib/hymnal";
 import { Hymn } from "@/types/hymn";
 import Link from "next/link";
 import { Search, FilterX } from "lucide-react";
+import { Reveal } from "@/components/ui/reveal";
 
 export default function Home() {
   const [query, setQuery] = useState("");
@@ -33,15 +34,19 @@ export default function Home() {
     <div className="flex min-h-screen flex-col items-center p-8 sm:p-24 bg-zinc-50 dark:bg-zinc-950">
       <main className="flex w-full max-w-2xl flex-col items-center gap-8">
         <div className={`text-center space-y-4 transition-all duration-500 ${hasSearched ? "mt-8" : "mt-20"}`}>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl text-zinc-900 dark:text-zinc-50">
-            SDA Hymnal
-          </h1>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400">
-            Philippine Edition
-          </p>
+          <Reveal delay={0} y={20}>
+            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl text-zinc-900 dark:text-zinc-50">
+              SDA Hymnal
+            </h1>
+          </Reveal>
+          <Reveal delay={0.1} y={20}>
+            <p className="text-lg text-zinc-600 dark:text-zinc-400">
+              Philippine Edition
+            </p>
+          </Reveal>
         </div>
 
-        <div className="w-full space-y-4">
+        <Reveal delay={0.2} y={20} className="w-full space-y-4">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -60,35 +65,27 @@ export default function Home() {
               />
             </div>
           </form>
-        </div>
+        </Reveal>
 
         {hasSearched && (
-          <div className="w-full space-y-4">
-            <div className="flex justify-between items-center text-sm text-zinc-500">
-              <p>{results.length} results found</p>
-            </div>
+          <div className="w-full max-w-2xl space-y-3">
+            <p className="text-xs text-zinc-400 px-1">
+              {results.length} results found
+            </p>
 
             {results.length > 0 ? (
-              <div className="grid gap-4">
+              <div className="flex flex-col gap-4">
                 {results.map((hymn) => (
-                  <Link
-                    key={hymn.number}
-                    href={`/hymn/${hymn.number}`}
-                    className="p-5 rounded-2xl border bg-white dark:bg-zinc-900 dark:border-zinc-800 hover:border-primary/50 transition-all duration-300 group shadow-sm hover:shadow-lg hover:-translate-y-1"
-                  >
-                    <div className="flex justify-between items-start gap-4">
-                      <div className="space-y-1">
-                        <h3 className="font-bold text-lg text-zinc-900 dark:text-zinc-50 group-hover:text-primary transition-colors">
-                          {hymn.number}. {hymn.title}
-                        </h3>
-                      </div>
-                      {hymn.category && (
-                        <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 bg-zinc-50 dark:bg-zinc-800 border dark:border-zinc-700 px-2 py-1 rounded-md shrink-0">
-                          {hymn.category}
-                        </span>
-                      )}
-                    </div>
-                  </Link>
+                  <Reveal key={hymn.number} y={20} duration={0.4}>
+                    <Link
+                      href={`/hymn/${hymn.number}`}
+                      className="block p-6 rounded-2xl border border-zinc-200 bg-white dark:bg-zinc-900 dark:border-zinc-800 shadow-md hover:shadow-xl hover:-translate-y-1 hover:border-primary dark:hover:border-primary transition-all duration-300 will-change-transform group"
+                    >
+                      <h3 className="font-bold text-lg text-zinc-900 dark:text-zinc-50 group-hover:text-primary transition-colors">
+                        {hymn.number}. {hymn.title}
+                      </h3>
+                    </Link>
+                  </Reveal>
                 ))}
               </div>
             ) : (
