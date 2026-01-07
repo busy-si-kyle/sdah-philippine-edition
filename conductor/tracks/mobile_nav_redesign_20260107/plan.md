@@ -18,11 +18,11 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Navigation Animation (Fade)
-- [ ] Task: Implement Navigation Animation Logic
-    - [ ] Wrap hymn content (header, actions, lyrics) in `framer-motion` components.
-    - [ ] Implement a "Content Crossfade" (fade out old, fade in new) when the hymn number changes.
-    - [ ] **Contingency:** Fallback to "Full Page Transition" if crossfade is too complex for the current data loading pattern.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
+- [x] Task: Implement Navigation Animation Logic 5d1519a
+    - [x] Wrap hymn content (header, actions, lyrics) in `framer-motion` components.
+    - [x] Implement a "Content Crossfade" (fade out old, fade in new) when the hymn number changes.
+    - [x] **Contingency:** Fallback to "Full Page Transition" if crossfade is too complex for the current data loading pattern.
+- [~] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: Testing & Final Refinement
 - [ ] Task: Update and Add Tests
