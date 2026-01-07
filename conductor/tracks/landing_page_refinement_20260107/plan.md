@@ -11,18 +11,15 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Animations & Visual Polish
-- [ ] Task: Implement staggered fade-in for header and search box
-    - [ ] Wrap "SDA Hymnal" text and search box in `framer-motion` components
-    - [ ] Configure `initial`, `animate`, and `transition` props for staggering
-    - [ ] **Critical:** Verify that no scrollbars appear during the animation (using clean opacity/scale transitions)
-- [ ] Task: Refine Home page layout for "All Hymns" view
-    - [ ] Adjust the "results found" count display when showing all hymns
-    - [ ] Ensure smooth transition between search states and the default view
-- [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
-
-## Phase 3: Testing & Final Verification
-- [ ] Task: Write/Update unit tests for search behavior and initial state
-    - [ ] Verify `Home` page renders all hymns on initial load
-    - [ ] Verify search filtering still works correctly with virtualization
-- [ ] Task: Verify mobile responsiveness of the virtualized list and animations
-- [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
+- [x] Task: Implement staggered fade-in for header and search box b7952ad
+    - [x] Wrap "SDA Hymnal" text and search box in `framer-motion` components
+    - [x] Configure `initial`, `animate`, and `transition` props for staggering
+    - [x] **Critical:** Verify that no scrollbars appear during the animation (using clean opacity/scale transitions)
+- [x] Task: Refine Home page layout for "All Hymns" view b7952ad
+    - [x] Adjust the "results found" count display when showing all hymns
+    - [x] Ensure smooth transition between search states and the default view
+- [x] Task: Write/Update unit tests for search behavior and initial state 1a759a4
+    - [x] Verify `Home` page renders all hymns on initial load
+    - [x] Verify search filtering still works correctly with virtualization
+- [~] Task: Verify mobile responsiveness of the virtualized list and animations
+- [~] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
