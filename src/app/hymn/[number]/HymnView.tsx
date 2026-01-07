@@ -76,49 +76,58 @@ export default function HymnView({ hymn }: HymnViewProps) {
   return (
     <div
       data-testid="hymn-view-container"
-      className="w-full flex flex-col items-center gap-12 relative"
+      className="w-full flex flex-col items-center gap-8 relative"
     >
-      {/* Navigation Arrows - Desktop/Floating (Hidden on mobile/tablet) */}
-      <div className="fixed inset-y-0 left-0 hidden lg:flex items-center p-4 z-10">
-        {prevNumber ? (
-          <Link href={`/hymn/${prevNumber}`} title="Previous Hymn (Left Arrow)">
-            <Button variant="ghost" size="icon" className="h-12 w-12 rounded-full bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm shadow-md hover:scale-110 hover:bg-white dark:hover:bg-zinc-800 transition-all">
-              <ChevronLeft className="h-8 w-8" />
-              <span className="sr-only">Previous Hymn</span>
-            </Button>
-          </Link>
-        ) : (
-          <div className="w-12" /> // Spacer
-        )}
-      </div>
-
-      <div className="fixed inset-y-0 right-0 hidden lg:flex items-center p-4 z-10">
-        {nextNumber ? (
-          <Link href={`/hymn/${nextNumber}`} title="Next Hymn (Right Arrow)">
-            <Button variant="ghost" size="icon" className="h-12 w-12 rounded-full bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm shadow-md hover:scale-110 hover:bg-white dark:hover:bg-zinc-800 transition-all">
-              <ChevronRight className="h-8 w-8" />
-              <span className="sr-only">Next Hymn</span>
-            </Button>
-          </Link>
-        ) : (
-          <div className="w-12" /> // Spacer
-        )}
-      </div>
-
       {/* Header Section */}
       <div className="w-full flex flex-col items-center gap-6">
-        <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-            {hymn.number}. {hymn.title}
+        <div className="w-full flex flex-col items-center text-center">
+          
+          {/* Top Line: Navigation Arrows & Hymn Number */}
+          <div className="w-full relative flex items-center justify-center min-h-[48px] mb-2">
+            {prevNumber && (
+              <Link href={`/hymn/${prevNumber}`} title="Previous Hymn" className="absolute left-0">
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="h-10 w-10 rounded-full border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm"
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                  <span className="sr-only">Previous Hymn</span>
+                </Button>
+              </Link>
+            )}
+
+            <span className="text-xl sm:text-2xl font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">
+              Hymn {hymn.number}
+            </span>
+
+            {nextNumber && (
+              <Link href={`/hymn/${nextNumber}`} title="Next Hymn" className="absolute right-0">
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="h-10 w-10 rounded-full border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm"
+                >
+                  <ChevronRight className="h-6 w-6" />
+                  <span className="sr-only">Next Hymn</span>
+                </Button>
+              </Link>
+            )}
+          </div>
+
+          {/* Title Line */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 leading-tight">
+            {hymn.title}
           </h1>
+
           {hymn.category && (
-            <span className="inline-block text-sm font-medium text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full">
+            <span className="mt-4 inline-block text-sm font-medium text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full">
               {hymn.category}
             </span>
           )}
         </div>
 
-        <div className="flex flex-wrap justify-center gap-3">
+        <div className="flex flex-wrap justify-center gap-3 mt-2">
           {hasLocalSheet && (
             <Link href={`/hymn/${hymn.number}/sheet`}>
               <Button
@@ -147,7 +156,7 @@ export default function HymnView({ hymn }: HymnViewProps) {
       </div>
 
       {/* Lyrics Section */}
-      <div className="w-full">
+      <div className="w-full mt-4">
         <pre className="whitespace-pre-wrap font-sans text-xl sm:text-2xl leading-[1.8] text-center text-zinc-800 dark:text-zinc-200">
           {hymn.lyrics}
         </pre>
