@@ -7,7 +7,7 @@
 - [x] Task: Remove filtering logic from Home/Search 23ab622
     - [ ] Update search/filtering logic to no longer support/expect a "missing sheet" filter
     - [ ] **Crucial:** Ensure `hasSheet` property remains available in the data model for the Hymn Detail page usage.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Update Search Logic & Results UI [checkpoint: 1ab991d]
 - [x] Task: Implement loose number matching in search 36ee4cc, ad6b81c
