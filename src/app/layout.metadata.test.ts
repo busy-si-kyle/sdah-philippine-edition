@@ -10,6 +10,6 @@ import { metadata } from './layout';
 
 describe('Root Layout Metadata', () => {
   it('should have the correct site title', () => {
-    expect(metadata.title).toBe('SDAH Philippine Edition');
+    expect(metadata.title).toBe('SDA Hymnal Philippine Edition');
   });
 });
