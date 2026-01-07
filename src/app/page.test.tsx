@@ -36,7 +36,7 @@ describe('Home Page', () => {
     });
   });
 
-  it('should clear results when input is cleared', async () => {
+  it('should show default results when input is cleared', async () => {
     render(<Home />);
     const input = screen.getByPlaceholderText(/search hymns/i);
     
@@ -49,12 +49,9 @@ describe('Home Page', () => {
     // Clear the input
     fireEvent.change(input, { target: { value: '' } });
     
-    // Results should be gone (or not visible)
+    // Results should STILL be there (default list)
     await waitFor(() => {
-      // Results should be gone
-      expect(screen.queryByText(/O Worship the Lord/i)).toBeNull();
-      // "Category: Worship" header should be gone
-      expect(screen.queryByText(/Category: Worship/i)).toBeNull();
+      expect(screen.queryByText(/O Worship the Lord/i)).not.toBeNull();
     });
   });
 

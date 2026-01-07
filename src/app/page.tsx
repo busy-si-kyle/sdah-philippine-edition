@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { searchHymns } from "@/lib/hymnal";
+import { searchHymns, getAllHymns } from "@/lib/hymnal";
 import { Hymn } from "@/types/hymn";
 import Link from "next/link";
 import { Search, FilterX } from "lucide-react";
@@ -13,13 +13,18 @@ export default function Home() {
   const [results, setResults] = useState<Hymn[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
 
+  // Load all hymns on initial mount
+  useEffect(() => {
+    setResults(getAllHymns());
+  }, []);
+
   const applySearch = (searchQuery: string) => {
     if (searchQuery.trim()) {
       const searchResults = searchHymns(searchQuery);
       setResults(searchResults);
       setHasSearched(true);
     } else {
-      setResults([]);
+      setResults(getAllHymns());
       setHasSearched(false);
     }
   };
@@ -32,7 +37,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center p-8 sm:p-24 bg-zinc-50 dark:bg-zinc-950">
       <main className="flex w-full max-w-2xl flex-col items-center gap-8">
-        <div className={`text-center space-y-4 transition-all duration-500 ${hasSearched ? "mt-8" : "mt-20"}`}>
+        <div className={`text-center space-y-4 transition-all duration-500 ${query ? "mt-8" : "mt-20"}`}>
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl text-zinc-900 dark:text-zinc-50">
             SDA Hymnal
           </h1>
@@ -62,13 +67,14 @@ export default function Home() {
           </form>
         </div>
 
-        {hasSearched && (
-          <div className="w-full space-y-4">
+        <div className="w-full space-y-4">
+          {hasSearched && (
             <div className="flex justify-between items-center text-sm text-zinc-500">
               <p>{results.length} results found</p>
             </div>
+          )}
 
-            {results.length > 0 ? (
+          {results.length > 0 ? (
               <div className="grid gap-4">
                 {results.map((hymn) => (
                   <Link
@@ -105,7 +111,6 @@ export default function Home() {
               </div>
             )}
           </div>
-        )}
       </main>
     </div>
   );
