@@ -26,6 +26,10 @@ export default function HymnView({ hymn }: HymnViewProps) {
   const nextNumber = hymn.number < MAX_HYMN_NUMBER ? hymn.number + 1 : null;
 
   useEffect(() => {
+    // Programmatically prefetch adjacent hymns
+    if (prevNumber) router.prefetch(`/hymn/${prevNumber}`);
+    if (nextNumber) router.prefetch(`/hymn/${nextNumber}`);
+
     const handleKeyDown = (e: KeyboardEvent) => {
       // Don't trigger if user is typing in an input/textarea
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
@@ -55,7 +59,7 @@ export default function HymnView({ hymn }: HymnViewProps) {
           {/* Top Line: Navigation Arrows & Hymn Number (Static) */}
           <div className="w-full relative flex items-center justify-center min-h-[48px] mb-2">
             {prevNumber && (
-              <Link href={`/hymn/${prevNumber}`} title="Previous Hymn" className="absolute left-0">
+              <Link href={`/hymn/${prevNumber}`} title="Previous Hymn" className="absolute left-0" prefetch={true}>
                 <Button 
                   variant="outline" 
                   size="icon" 
@@ -72,7 +76,7 @@ export default function HymnView({ hymn }: HymnViewProps) {
             </span>
 
             {nextNumber && (
-              <Link href={`/hymn/${nextNumber}`} title="Next Hymn" className="absolute right-0">
+              <Link href={`/hymn/${nextNumber}`} title="Next Hymn" className="absolute right-0" prefetch={true}>
                 <Button 
                   variant="outline" 
                   size="icon" 

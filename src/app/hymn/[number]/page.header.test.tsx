@@ -6,6 +6,7 @@ import HymnView from './HymnView';
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: vi.fn(),
+    prefetch: vi.fn(),
   }),
 }));
 

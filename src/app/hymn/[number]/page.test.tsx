@@ -27,6 +27,7 @@ vi.mock('@/data/sheet_music_map.json', () => ({
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: vi.fn(),
+    prefetch: vi.fn(),
   }),
 }));
 

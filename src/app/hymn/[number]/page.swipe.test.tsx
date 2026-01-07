@@ -4,9 +4,11 @@ import HymnPage from '@/app/hymn/[number]/page';
 
 // Mock useRouter
 const mockPush = vi.fn();
+const mockPrefetch = vi.fn();
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
+    prefetch: mockPrefetch,
   }),
 }));
 
