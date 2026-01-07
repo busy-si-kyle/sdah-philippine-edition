@@ -7,7 +7,7 @@
     - [x] Add a `useEffect` hook in `HymnView.tsx` that calls `router.prefetch()` for `prevNumber` and `nextNumber` routes.
 - [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
-## Phase 2: Verification & Testing
+## Phase 2: Verification & Testing [checkpoint: b438f67]
 - [x] Task: Verify prefetching behavior in unit tests
     - [x] Update or add tests in `src/app/hymn/[number]/page.test.tsx` to ensure navigation links are rendered with correct attributes.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
