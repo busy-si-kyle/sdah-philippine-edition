@@ -7,6 +7,7 @@ import { searchHymns, getAllHymns } from "@/lib/hymnal";
 import { Hymn } from "@/types/hymn";
 import Link from "next/link";
 import { Search, FilterX } from "lucide-react";
+import { Virtuoso } from "react-virtuoso";
 
 export default function Home() {
   const [query, setQuery] = useState("");
@@ -75,12 +76,14 @@ export default function Home() {
           )}
 
           {results.length > 0 ? (
-              <div className="grid gap-4">
-                {results.map((hymn) => (
+            <Virtuoso
+              useWindowScroll
+              data={results}
+              itemContent={(index, hymn) => (
+                <div key={hymn.number} className="pb-4">
                   <Link
-                    key={hymn.number}
                     href={`/hymn/${hymn.number}`}
-                    className="p-5 rounded-2xl border bg-white dark:bg-zinc-900 dark:border-zinc-800 hover:border-primary/50 transition-all duration-300 group shadow-sm hover:shadow-lg hover:-translate-y-1"
+                    className="p-5 rounded-2xl border bg-white dark:bg-zinc-900 dark:border-zinc-800 hover:border-primary/50 transition-all duration-300 group shadow-sm hover:shadow-lg hover:-translate-y-1 block"
                   >
                     <div className="flex justify-between items-start gap-4">
                       <div className="space-y-1">
@@ -95,9 +98,10 @@ export default function Home() {
                       )}
                     </div>
                   </Link>
-                ))}
-              </div>
-            ) : (
+                </div>
+              )}
+            />
+          ) : (
               <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
                 <div className="h-16 w-16 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
                   <FilterX className="h-8 w-8 text-zinc-400" />
