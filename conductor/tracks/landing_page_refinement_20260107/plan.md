@@ -5,10 +5,10 @@
 - [x] Task: Update Home page to display all hymns by default d1588ac
     - [x] Modify `applySearch` to handle empty queries by returning `getAllHymns()`
     - [x] Update state to show results even when `query` is empty
-- [ ] Task: Implement virtualized list for hymn results
-    - [ ] Replace the `results.map` loop with `Virtuoso` component for performance
-    - [ ] **Critical:** Ensure the existing card styling (borders, hover effects, shadows, dark mode, highlights) is strictly preserved within the virtualized row items.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
+- [x] Task: Implement virtualized list for hymn results fc2639f
+    - [x] Replace the `results.map` loop with `Virtuoso` component for performance
+    - [x] **Critical:** Ensure the existing card styling (borders, hover effects, shadows, dark mode, highlights) is strictly preserved within the virtualized row items.
+- [~] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Animations & Visual Polish
 - [ ] Task: Implement staggered fade-in for header and search box

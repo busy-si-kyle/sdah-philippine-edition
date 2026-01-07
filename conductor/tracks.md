@@ -14,6 +14,12 @@ This file tracks all major tracks for the project. Each track has its own detail
 *Link: [./conductor/tracks/search_refinement_20260102/](./conductor/tracks/search_refinement_20260102/)*
 
 
+---
+
+## [~] Track: Landing Page Animations & Virtualized Hymn List
+*Link: [./conductor/tracks/landing_page_refinement_20260107/](./conductor/tracks/landing_page_refinement_20260107/)*
+
+
 
 
 
