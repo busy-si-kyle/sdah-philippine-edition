@@ -8,6 +8,6 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Verification & Testing
-- [ ] Task: Verify prefetching behavior in unit tests
-    - [ ] Update or add tests in `src/app/hymn/[number]/page.test.tsx` to ensure navigation links are rendered with correct attributes.
+- [x] Task: Verify prefetching behavior in unit tests
+    - [x] Update or add tests in `src/app/hymn/[number]/page.test.tsx` to ensure navigation links are rendered with correct attributes.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
