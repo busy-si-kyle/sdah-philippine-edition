@@ -1,6 +1,6 @@
 # Track Plan: Mobile Navigation Redesign & Gesture Removal
 
-## Phase 1: Cleanup & UI Structural Redesign
+## Phase 1: Cleanup & UI Structural Redesign [checkpoint: a2657d5]
 - [x] Task: Remove swipe gesture detection logic from `HymnView.tsx` d1b5d7b
     - [x] Update `HymnView.tsx` to remove `onTouchStart`, `onTouchMove`, and `onTouchEnd` handlers.
     - [x] Remove swipe-related state (`touchStart`, `touchEnd`).
@@ -15,7 +15,7 @@
     - [x] Remove `isPresenting` state and toggle handler.
     - [x] Remove the presentation mode modal/overlay JSX.
     - [x] Remove the "Present" button from the action bar.
-- [~] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Navigation Animation (Fade)
 - [ ] Task: Implement Navigation Animation Logic
