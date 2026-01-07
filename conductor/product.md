@@ -15,7 +15,7 @@ To provide a digital home for the SDA Hymnal Philippine Edition, making hymns ea
 ## Key Features
 - **Advanced Search & Navigation:** 
     - Search by hymn number (contains match), title, or full-text lyrics.
-    - Sequential navigation (Previous/Next) between hymns with keyboard shortcuts.
+    - Sequential navigation (Previous/Next) between hymns with keyboard shortcuts and background prefetching for near-instant transitions.
     - Browse hymns by category.
     - **Default View:** Landing page displays a complete list of all hymns by default for instant browsing.
 - **Comprehensive Sheet Music Support:**
