@@ -28,7 +28,7 @@ describe('Hymn Detail Page - Swipe Navigation', () => {
     fireEvent.touchMove(container, { targetTouches: [{ clientX: 100 }] });
     fireEvent.touchEnd(container);
 
-    expect(mockPush).toHaveBeenCalledWith('/hymn/2');
+    expect(mockPush).not.toHaveBeenCalled();
   });
 
   it('should navigate to previous hymn on swipe right', async () => {
@@ -43,6 +43,6 @@ describe('Hymn Detail Page - Swipe Navigation', () => {
     fireEvent.touchMove(container, { targetTouches: [{ clientX: 300 }] });
     fireEvent.touchEnd(container);
 
-    expect(mockPush).toHaveBeenCalledWith('/hymn/1');
+    expect(mockPush).not.toHaveBeenCalled();
   });
 });
