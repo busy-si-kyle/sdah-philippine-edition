@@ -59,7 +59,7 @@ export default function HymnView({ hymn }: HymnViewProps) {
                 <Button 
                   variant="outline" 
                   size="icon" 
-                  className="h-10 w-10 rounded-full border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm"
+                  className="h-11 w-11 rounded-full border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm"
                 >
                   <ChevronLeft className="h-6 w-6" />
                   <span className="sr-only">Previous Hymn</span>
@@ -76,7 +76,7 @@ export default function HymnView({ hymn }: HymnViewProps) {
                 <Button 
                   variant="outline" 
                   size="icon" 
-                  className="h-10 w-10 rounded-full border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm"
+                  className="h-11 w-11 rounded-full border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm"
                 >
                   <ChevronRight className="h-6 w-6" />
                   <span className="sr-only">Next Hymn</span>
