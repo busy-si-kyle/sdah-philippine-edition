@@ -2,9 +2,9 @@
 
 ## Phase 1: Setup & Virtualization
 - [x] Task: Install animation and virtualization dependencies (`framer-motion`, `react-virtuoso`) aa8b2b3
-- [ ] Task: Update Home page to display all hymns by default
-    - [ ] Modify `applySearch` to handle empty queries by returning `getAllHymns()`
-    - [ ] Update state to show results even when `query` is empty
+- [x] Task: Update Home page to display all hymns by default d1588ac
+    - [x] Modify `applySearch` to handle empty queries by returning `getAllHymns()`
+    - [x] Update state to show results even when `query` is empty
 - [ ] Task: Implement virtualized list for hymn results
     - [ ] Replace the `results.map` loop with `Virtuoso` component for performance
     - [ ] **Critical:** Ensure the existing card styling (borders, hover effects, shadows, dark mode, highlights) is strictly preserved within the virtualized row items.
