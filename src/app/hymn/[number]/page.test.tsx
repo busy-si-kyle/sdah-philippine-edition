@@ -39,7 +39,9 @@ describe('Hymn Detail Page', () => {
     // @ts-ignore - Next.js Page components can be async
     render(await HymnPage({ params }));
 
-    expect(screen.getByText(/1\. O Worship the Lord/i)).toBeDefined();
+    // Verify hymn header (Updated UI: Number and Title are separate)
+    expect(screen.getByText(/Hymn 1/i)).toBeDefined();
+    expect(screen.getByRole('heading', { name: /O Worship the Lord/i })).toBeDefined();
     expect(screen.getByText(/O worship the Lord in the beauty of holiness/i)).toBeDefined();
     // Help icon trigger for AboutModal
     expect(screen.getByRole('button', { name: /About this project/i })).toBeDefined();
