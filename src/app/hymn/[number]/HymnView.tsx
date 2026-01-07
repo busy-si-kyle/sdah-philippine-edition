@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Maximize2, X, Download, AlertCircle, Eye, ChevronLeft, ChevronRight } from "lucide-react";
+import { Download, AlertCircle, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 import { Hymn } from "@/types/hymn";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,6 @@ interface HymnViewProps {
 }
 
 export default function HymnView({ hymn }: HymnViewProps) {
-  const [isPresenting, setIsPresenting] = useState(false);
   const router = useRouter();
 
   const localSheetImages = sheetMusicMap[hymn.number.toString()];
@@ -36,42 +35,12 @@ export default function HymnView({ hymn }: HymnViewProps) {
         router.push(`/hymn/${prevNumber}`);
       } else if (e.key === "ArrowRight" && nextNumber) {
         router.push(`/hymn/${nextNumber}`);
-      } else if (e.key === "Escape" && isPresenting) {
-        setIsPresenting(false);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [prevNumber, nextNumber, isPresenting, router]);
-
-  if (isPresenting) {
-    return (
-      <div className="fixed inset-0 z-50 bg-white dark:bg-black p-8 sm:p-16 flex flex-col items-center overflow-y-auto">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="fixed top-4 right-4"
-          onClick={() => setIsPresenting(false)}
-        >
-          <X className="h-6 w-6" />
-          <span className="sr-only">Exit</span>
-        </Button>
-
-        <div className="w-full max-w-4xl flex flex-col items-center gap-12 py-12">
-          <div className="text-center space-y-4">
-            <h1 className="text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-              {hymn.number}. {hymn.title}
-            </h1>
-          </div>
-
-          <pre className="whitespace-pre-wrap font-sans text-3xl sm:text-4xl leading-[1.6] text-center text-zinc-900 dark:text-zinc-50">
-            {hymn.lyrics}
-          </pre>
-        </div>
-      </div>
-    );
-  }
+  }, [prevNumber, nextNumber, router]);
 
   return (
     <div
@@ -148,10 +117,6 @@ export default function HymnView({ hymn }: HymnViewProps) {
               </Button>
             </Link>
           )}
-          <Button variant="outline" size="lg" className="gap-2 rounded-full hover:-translate-y-0.5 transition-transform" onClick={() => setIsPresenting(true)}>
-            <Maximize2 className="h-5 w-5" />
-            Present
-          </Button>
         </div>
       </div>
 
