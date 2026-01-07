@@ -4,14 +4,18 @@
 - [x] Task: Remove swipe gesture detection logic from `HymnView.tsx` d1b5d7b
     - [x] Update `HymnView.tsx` to remove `onTouchStart`, `onTouchMove`, and `onTouchEnd` handlers.
     - [x] Remove swipe-related state (`touchStart`, `touchEnd`).
-- [ ] Task: Redesign Header Layout (Lines and Alignment)
-    - [ ] Separate `hymn.number` and `hymn.title` into two distinct lines.
-    - [ ] Apply center alignment to both the number and the title.
-- [ ] Task: Reposition and Restyle Navigation Arrows
-    - [ ] Move "Previous" and "Next" arrow buttons to the same vertical line as the hymn number.
-    - [ ] Pin arrow buttons to the left and right edges of the container with appropriate padding.
-    - [ ] Improve contrast of arrow buttons (e.g., using `text-zinc-900 dark:text-zinc-50` or increasing border thickness) without adding new colors.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
+- [x] Task: Redesign Header Layout (Lines and Alignment) 4aaf2a3
+    - [x] Separate `hymn.number` and `hymn.title` into two distinct lines.
+    - [x] Apply center alignment to both the number and the title.
+- [x] Task: Reposition and Restyle Navigation Arrows 4aaf2a3
+    - [x] Move "Previous" and "Next" arrow buttons to the same vertical line as the hymn number.
+    - [x] Pin arrow buttons to the left and right edges of the container with appropriate padding.
+    - [x] Improve contrast of arrow buttons (e.g., using `text-zinc-900 dark:text-zinc-50` or increasing border thickness) without adding new colors.
+- [x] Task: Remove "Present" button and logic 6df7378
+    - [x] Remove `isPresenting` state and toggle handler.
+    - [x] Remove the presentation mode modal/overlay JSX.
+    - [x] Remove the "Present" button from the action bar.
+- [~] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Navigation Animation (Fade)
 - [ ] Task: Implement Navigation Animation Logic
