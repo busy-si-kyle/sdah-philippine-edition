@@ -24,11 +24,11 @@
     - [x] **Contingency:** Fallback to "Full Page Transition" if crossfade is too complex for the current data loading pattern.
 - [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
-## Phase 3: Testing & Final Refinement
+## Phase 3: Testing & Final Refinement [checkpoint: 2edaa1a]
 - [x] Task: Update and Add Tests 8c06c0f
     - [x] Update `src/app/hymn/[number]/page.swipe.test.tsx` to ensure gestures no longer trigger navigation.
     - [x] Add unit tests to verify the new header structure and navigation button presence.
 - [x] Task: Mobile Polish & Visual Verification 494c455
     - [x] Verify layout on small screens (iPhone SE, etc.).
     - [x] Ensure navigation arrows are easily tappable (44x44px min target).
-- [~] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
