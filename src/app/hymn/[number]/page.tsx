@@ -1,4 +1,5 @@
 import { getHymnByNumber } from "@/lib/hymnal";
+import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
@@ -9,6 +10,44 @@ import { ReportIssueForm } from "@/components/ReportIssueForm";
 
 interface PageProps {
   params: Promise<{ number: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { number } = await params;
+  const hymnNumber = parseInt(number, 10);
+  const hymn = getHymnByNumber(hymnNumber);
+
+  if (!hymn) {
+    return {
+      title: "Hymn Not Found | SDA Hymnal PH",
+      description: "The requested hymn could not be found in the Seventh-day Adventist Hymnal (Philippine Edition).",
+    };
+  }
+
+  const title = `Hymn ${hymn.number} - ${hymn.title} | SDA Hymnal PH`;
+  // Create a clean description from lyrics (remove newlines, truncate)
+  const cleanLyrics = hymn.lyrics.replace(/\n+/g, " ").substring(0, 160).trim();
+  const description = `Lyrics and music sheet for Hymn ${hymn.number}: ${hymn.title}. ${cleanLyrics}...`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "music.song",
+      siteName: "SDA Hymnal Philippine Edition",
+    },
+    keywords: [
+      "SDA Hymnal",
+      "Philippine Edition",
+      "Tagalog Hymns",
+      "English Hymns",
+      hymn.title,
+      `Hymn ${hymn.number}`,
+      "Seventh-day Adventist",
+    ],
+  };
 }
 
 export default async function HymnPage({ params }: PageProps) {
