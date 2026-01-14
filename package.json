@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "generate-sheet-map": "tsx scripts/generate-sheet-map.ts",
-    "prebuild": "npm run generate-sheet-map"
+    "prebuild": "npm run generate-sheet-map",
+    "postbuild": "tsx scripts/submit-indexnow.ts"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
