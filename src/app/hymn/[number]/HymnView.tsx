@@ -109,28 +109,30 @@ export default function HymnView({ hymn }: HymnViewProps) {
                 </span>
               )}
 
-              <div className="flex flex-wrap justify-center gap-3 mt-2">
-                {hasLocalSheet && (
-                  <Link href={`/hymn/${hymn.number}/sheet`}>
-                    <Button
-                      variant="default"
-                      size="lg"
-                      className="gap-2 rounded-full hover:-translate-y-0.5 transition-transform"
-                    >
-                      <Eye className="h-5 w-5" />
-                      View Sheet Music
-                    </Button>
-                  </Link>
-                )}
-                {hymn.sheetMusicUrl && (
-                  <Link href={hymn.sheetMusicUrl} target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" size="lg" className="gap-2 rounded-full hover:-translate-y-0.5 transition-transform">
-                      <Download className="h-5 w-5" />
-                      Download PDF
-                    </Button>
-                  </Link>
-                )}
-              </div>
+              {(hasLocalSheet || hymn.sheetMusicUrl) && (
+                <div className="flex flex-wrap justify-center gap-3 mt-2">
+                  {hasLocalSheet && (
+                    <Link href={`/hymn/${hymn.number}/sheet`}>
+                      <Button
+                        variant="default"
+                        size="lg"
+                        className="gap-2 rounded-full hover:-translate-y-0.5 transition-transform"
+                      >
+                        <Eye className="h-5 w-5" />
+                        View Sheet Music
+                      </Button>
+                    </Link>
+                  )}
+                  {hymn.sheetMusicUrl && (
+                    <Link href={hymn.sheetMusicUrl} target="_blank" rel="noopener noreferrer">
+                      <Button variant="outline" size="lg" className="gap-2 rounded-full hover:-translate-y-0.5 transition-transform">
+                        <Download className="h-5 w-5" />
+                        Download PDF
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              )}
 
               {/* Lyrics Section */}
               <div className="w-full mt-4 flex flex-col items-center gap-6 text-center">
@@ -140,7 +142,7 @@ export default function HymnView({ hymn }: HymnViewProps) {
                     : ""
                     }`}>
                     {verse.label && (
-                      <span className="text-lg font-bold text-primary/80 uppercase tracking-widest mt-6 mb-2">
+                      <span className={`text-lg font-bold text-primary/80 uppercase tracking-widest mb-2 ${index > 0 ? "mt-6" : ""}`}>
                         {verse.label}
                       </span>
                     )}
