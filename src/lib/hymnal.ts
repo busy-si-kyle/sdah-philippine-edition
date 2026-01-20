@@ -28,12 +28,8 @@ export function searchHymns(query: string): Hymn[] {
       return true;
     }
 
-    // Lyrics match
-    if (hymn.lyrics.toLowerCase().includes(q)) {
-      return true;
-    }
-
-    return false;
+    // Lyrics match (iterate through verses)
+    return hymn.verses.some((v) => v.text.toLowerCase().includes(q));
   }).sort((a, b) => {
     // 1. Prioritize exact number match if query is a number
     if (isNumber) {
@@ -47,7 +43,7 @@ export function searchHymns(query: string): Hymn[] {
 
     if (aTitleMatch && !bTitleMatch) return -1;
     if (!aTitleMatch && bTitleMatch) return 1;
-    
+
     // 3. Then sort by number
     return a.number - b.number;
   });

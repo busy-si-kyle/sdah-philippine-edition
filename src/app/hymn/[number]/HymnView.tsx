@@ -55,14 +55,14 @@ export default function HymnView({ hymn }: HymnViewProps) {
       {/* Header Section (Static Top Part) */}
       <div className="w-full flex flex-col items-center gap-6">
         <div className="w-full flex flex-col items-center text-center">
-          
+
           {/* Top Line: Navigation Arrows & Hymn Number (Static) */}
           <div className="w-full relative flex items-center justify-center min-h-[48px] mb-2">
             {prevNumber && (
               <Link href={`/hymn/${prevNumber}`} title="Previous Hymn" className="absolute left-0" prefetch={true}>
-                <Button 
-                  variant="outline" 
-                  size="icon" 
+                <Button
+                  variant="outline"
+                  size="icon"
                   className="h-11 w-11 rounded-full border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm"
                 >
                   <ChevronLeft className="h-6 w-6" />
@@ -77,9 +77,9 @@ export default function HymnView({ hymn }: HymnViewProps) {
 
             {nextNumber && (
               <Link href={`/hymn/${nextNumber}`} title="Next Hymn" className="absolute right-0" prefetch={true}>
-                <Button 
-                  variant="outline" 
-                  size="icon" 
+                <Button
+                  variant="outline"
+                  size="icon"
                   className="h-11 w-11 rounded-full border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm"
                 >
                   <ChevronRight className="h-6 w-6" />
@@ -133,10 +133,22 @@ export default function HymnView({ hymn }: HymnViewProps) {
               </div>
 
               {/* Lyrics Section */}
-              <div className="w-full mt-4">
-                <pre className="whitespace-pre-wrap font-sans text-xl sm:text-2xl leading-[1.8] text-center text-zinc-800 dark:text-zinc-200">
-                  {hymn.lyrics}
-                </pre>
+              <div className="w-full mt-4 flex flex-col items-center gap-6 text-center">
+                {hymn.verses.map((verse, index) => (
+                  <div key={index} className={`flex flex-col gap-2 max-w-2xl w-full ${verse.label.toLowerCase().includes("chorus") || verse.label.toLowerCase().includes("koro")
+                    ? "italic text-zinc-600 dark:text-zinc-400"
+                    : ""
+                    }`}>
+                    {verse.label && (
+                      <span className="text-lg font-bold text-primary/80 uppercase tracking-widest mt-6 mb-2">
+                        {verse.label}
+                      </span>
+                    )}
+                    <p className="whitespace-pre-wrap font-sans text-xl sm:text-2xl leading-relaxed text-zinc-800 dark:text-zinc-200">
+                      {verse.text}
+                    </p>
+                  </div>
+                ))}
               </div>
 
               {/* Footer / Sheet Music Status Section */}

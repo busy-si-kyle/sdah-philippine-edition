@@ -25,8 +25,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const title = `Hymn ${hymn.number} - ${hymn.title} | SDA Hymnal PH`;
-  // Create a clean description from lyrics (remove newlines, truncate)
-  const cleanLyrics = hymn.lyrics.replace(/\n+/g, " ").substring(0, 160).trim();
+
+  // Create a clean description from lyrics (combine first few verses)
+  const fullLyrics = hymn.verses.map(v => v.text).join(" ");
+  const cleanLyrics = fullLyrics.replace(/\n+/g, " ").substring(0, 160).trim();
   const description = `Lyrics and music sheet for Hymn ${hymn.number}: ${hymn.title}. ${cleanLyrics}...`;
 
   return {
