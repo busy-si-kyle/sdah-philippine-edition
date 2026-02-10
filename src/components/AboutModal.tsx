@@ -9,8 +9,9 @@ import {
   DialogTrigger,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function AboutModal() {
   return (
@@ -36,6 +37,22 @@ export function AboutModal() {
           <p className="text-xs text-zinc-500 italic">
             Ensuring every hymn is preserved with its lyrics and sheet music for the community.
           </p>
+          <a
+            href="https://github.com/busy-si-kyle/sdah-philippine-edition"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
+          >
+            <Github className="h-4 w-4" />
+            View on GitHub
+          </a>
+          <div className="pt-2">
+            <Link href="/offline" className="inline-flex">
+              <Button variant="outline" className="rounded-full">
+                Offline downloads
+              </Button>
+            </Link>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

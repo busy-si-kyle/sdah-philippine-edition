@@ -28,11 +28,15 @@ export function searchHymns(query: string): Hymn[] {
       return true;
     }
 
-    // Lyrics match
-    if (hymn.lyrics.toLowerCase().includes(q)) {
-      return true;
+    // Lyrics match (iterate through verses). Some older tests/mocks may provide a
+    // single `lyrics` string instead of structured `verses`.
+    const anyHymn = hymn as unknown as { verses?: { text: string }[]; lyrics?: string };
+    if (Array.isArray(anyHymn.verses)) {
+      return anyHymn.verses.some((v) => v.text.toLowerCase().includes(q));
     }
-
+    if (typeof anyHymn.lyrics === "string") {
+      return anyHymn.lyrics.toLowerCase().includes(q);
+    }
     return false;
   }).sort((a, b) => {
     // 1. Prioritize exact number match if query is a number
@@ -47,7 +51,7 @@ export function searchHymns(query: string): Hymn[] {
 
     if (aTitleMatch && !bTitleMatch) return -1;
     if (!aTitleMatch && bTitleMatch) return 1;
-    
+
     // 3. Then sort by number
     return a.number - b.number;
   });
