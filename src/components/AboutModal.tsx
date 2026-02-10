@@ -22,7 +22,12 @@ const TOTAL_HYMNS = 474;
 function buildAllHymnPageUrls(): string[] {
   const urls: string[] = ["/"];
   for (let i = 1; i <= TOTAL_HYMNS; i++) {
-    urls.push(`/hymn/${i}`);
+    const path = `/hymn/${i}`;
+    urls.push(path);
+    // Also cache the RSC (React Server Component) payload version.
+    // Next.js fetches this during client-side navigation.
+    // We add a special header in fetch() later, but for the cache key, 
+    // we'll fetch them separately if needed.
   }
   for (const hymnNumber of Object.keys(sheetMusicMap)) {
     urls.push(`/hymn/${hymnNumber}/sheet`);
@@ -47,6 +52,7 @@ async function cacheInBatches(
     batchSize: number;
     signal?: AbortSignal;
     onProgress?: (done: number, total: number) => void;
+    isRsc?: boolean;
   }
 ) {
   const cache = await caches.open(cacheName);
@@ -59,18 +65,33 @@ async function cacheInBatches(
     const batch = urls.slice(i, i + opts.batchSize);
     await Promise.all(
       batch.map(async (url) => {
+        // Double check abort before each fetch
         if (opts.signal?.aborted) return;
 
-        const existing = await cache.match(url);
-        if (existing) {
+        // For RSC requests, we often have a different search param or header.
+        // We'll use a special header that Next.js recognizes for prefetching.
+        const headers: Record<string, string> = opts.isRsc
+          ? { "RSC": "1", "Next-Router-Prefetch": "1" }
+          : {};
+
+        const existing = await cache.match(url, { ignoreSearch: opts.isRsc });
+        if (existing && !opts.isRsc) { // Always refresh RSC to be safe, or if not RSC skip if exists
           done += 1;
           opts.onProgress?.(done, total);
           return;
         }
 
-        const res = await fetch(url, { cache: "no-store", signal: opts.signal });
-        if (res.ok) {
-          await cache.put(url, res.clone());
+        try {
+          const res = await fetch(url, {
+            cache: "no-store",
+            signal: opts.signal,
+            headers
+          });
+          if (res.ok) {
+            await cache.put(url, res.clone());
+          }
+        } catch (err) {
+          // ignore abort errors or fetch failures
         }
 
         done += 1;
@@ -91,52 +112,86 @@ export function AboutModal() {
   const hymnPageUrls = useMemo(() => buildAllHymnPageUrls(), []);
   const sheetUrls = useMemo(() => buildAllSheetUrls(), []);
 
-  const start = useCallback(async () => {
+  // Check if already downloaded on mount
+  React.useEffect(() => {
+    const checkStatus = async () => {
+      if (typeof window === "undefined" || !("caches" in window)) return;
+
+      const hasFlag = localStorage.getItem("hymnal_downloaded") === "true";
+      if (hasFlag) {
+        setIsComplete(true);
+        return;
+      }
+
+      // Secondary check: see if home page and a high-number hymn are cached
+      try {
+        const cache = await caches.open(PAGES_CACHE_NAME);
+        const home = await cache.match("/");
+        const lastHymn = await cache.match(`/hymn/${TOTAL_HYMNS}`);
+        if (home && lastHymn) {
+          setIsComplete(true);
+          localStorage.setItem("hymnal_downloaded", "true");
+        }
+      } catch {
+        // ignore
+      }
+    };
+    checkStatus();
+  }, []);
+
+  const start = useCallback(async (isUpdate = false) => {
+    // 1. Immediate UI Feedback
     setError(null);
     setIsDownloading(true);
-    setIsComplete(false);
+    if (!isUpdate) setIsComplete(false);
     setDone(0);
 
+    // 2. Setup Abort Controller
     const controller = new AbortController();
     abortRef.current = controller;
 
     try {
-      if ("serviceWorker" in navigator) {
-        try {
-          await navigator.serviceWorker.ready;
-        } catch {
-          // ignore
-        }
-      }
-
-      const totalCount = hymnPageUrls.length + sheetUrls.length;
+      // 3. Prepare URLs and Total
+      const totalCount = (hymnPageUrls.length * 2) + sheetUrls.length;
       setTotal(totalCount);
 
-      // Phase 1: Cache all hymn pages (home + all hymn detail + sheet pages)
+      // Phase 1: Cache all hymn pages (HTML)
+      if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
       await cacheInBatches(PAGES_CACHE_NAME, hymnPageUrls, {
         batchSize: 10,
         signal: controller.signal,
         onProgress: (d) => setDone(d),
       });
 
-      // Phase 2: Cache all sheet music images
-      await cacheInBatches(SHEET_CACHE_NAME, sheetUrls, {
-        batchSize: 25,
+      // Phase 2: Cache all hymn pages (RSC data for offline links)
+      if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
+      await cacheInBatches(PAGES_CACHE_NAME, hymnPageUrls, {
+        batchSize: 10,
         signal: controller.signal,
+        isRsc: true,
         onProgress: (d) => setDone(hymnPageUrls.length + d),
       });
 
+      // Phase 3: Cache all sheet music images
+      if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
+      await cacheInBatches(SHEET_CACHE_NAME, sheetUrls, {
+        batchSize: 10, // Reduced from 25 for better UI responsiveness
+        signal: controller.signal,
+        onProgress: (d) => setDone((hymnPageUrls.length * 2) + d),
+      });
+
       setIsComplete(true);
+      localStorage.setItem("hymnal_downloaded", "true");
     } catch (e: unknown) {
       if (e instanceof DOMException && e.name === "AbortError") {
         setError("Download cancelled.");
       } else if (e instanceof DOMException && e.name === "QuotaExceededError") {
         setError(
-          "Storage is full. Try freeing device space and re-running the download."
+          "Storage is full. Try freeing device space."
         );
       } else {
         setError(
-          "Download failed. Please try again while online."
+          "Download failed. Please check your connection."
         );
       }
     } finally {
@@ -201,17 +256,19 @@ export function AboutModal() {
                   />
                 </div>
                 <div className="flex justify-between text-[10px] text-zinc-500">
-                  <span>{done.toLocaleString()} / {total.toLocaleString()}</span>
+                  <span className="font-medium">
+                    {isDownloading && done === 0 ? "Preparing..." : `${done.toLocaleString()} / ${total.toLocaleString()}`}
+                  </span>
                   <span>{percent}%</span>
                 </div>
               </div>
             )}
 
             {/* Status messages */}
-            {isComplete && (
+            {isComplete && !isDownloading && (
               <div className="flex items-center gap-2 text-xs text-green-600 dark:text-green-400">
                 <CheckCircle2 className="h-3.5 w-3.5" />
-                <span>All hymns are now available offline!</span>
+                <span>Hymnal is saved and available offline!</span>
               </div>
             )}
 
@@ -222,21 +279,36 @@ export function AboutModal() {
               </div>
             )}
 
-            {/* Download / Cancel button */}
+            {/* Download / Update / Cancel button */}
             {!isDownloading ? (
-              <Button
-                onClick={start}
-                size="sm"
-                className="w-full rounded-full gap-2"
-                disabled={typeof navigator !== "undefined" && !navigator.onLine}
-              >
-                <DownloadCloud className="h-4 w-4" />
-                {isComplete ? "Re-download" : "Download Entire Hymnal for Offline"}
-              </Button>
+              <div className="flex flex-col gap-2">
+                {!isComplete ? (
+                  <Button
+                    onClick={() => start(false)}
+                    size="sm"
+                    className="w-full rounded-full gap-2"
+                    disabled={typeof navigator !== "undefined" && !navigator.onLine}
+                  >
+                    <DownloadCloud className="h-4 w-4" />
+                    Download Entire Hymnal for Offline
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => start(true)}
+                    variant="outline"
+                    size="sm"
+                    className="w-full rounded-full gap-2 border-zinc-200 dark:border-zinc-800"
+                    disabled={typeof navigator !== "undefined" && !navigator.onLine}
+                  >
+                    <DownloadCloud className="h-4 w-4" />
+                    Check for Updates
+                  </Button>
+                )}
+              </div>
             ) : (
               <Button onClick={cancel} variant="outline" size="sm" className="w-full rounded-full gap-2">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Cancel
+                Cancel ({percent}%)
               </Button>
             )}
           </div>
