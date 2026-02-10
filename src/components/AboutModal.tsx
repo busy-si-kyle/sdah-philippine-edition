@@ -52,7 +52,6 @@ async function cacheInBatches(
     batchSize: number;
     signal?: AbortSignal;
     onProgress?: (done: number, total: number) => void;
-    isRsc?: boolean;
   }
 ) {
   const cache = await caches.open(cacheName);
@@ -65,17 +64,11 @@ async function cacheInBatches(
     const batch = urls.slice(i, i + opts.batchSize);
     await Promise.all(
       batch.map(async (url) => {
-        // Double check abort before each fetch
         if (opts.signal?.aborted) return;
 
-        // For RSC requests, we often have a different search param or header.
-        // We'll use a special header that Next.js recognizes for prefetching.
-        const headers: Record<string, string> = opts.isRsc
-          ? { "RSC": "1", "Next-Router-Prefetch": "1" }
-          : {};
-
-        const existing = await cache.match(url, { ignoreSearch: opts.isRsc });
-        if (existing && !opts.isRsc) { // Always refresh RSC to be safe, or if not RSC skip if exists
+        // Skip if already cached to avoid unnecessary network noise during 'Update'
+        const existing = await cache.match(url);
+        if (existing) {
           done += 1;
           opts.onProgress?.(done, total);
           return;
@@ -84,14 +77,13 @@ async function cacheInBatches(
         try {
           const res = await fetch(url, {
             cache: "no-store",
-            signal: opts.signal,
-            headers
+            signal: opts.signal
           });
           if (res.ok) {
             await cache.put(url, res.clone());
           }
         } catch (err) {
-          // ignore abort errors or fetch failures
+          // ignore failures
         }
 
         done += 1;
@@ -152,10 +144,10 @@ export function AboutModal() {
 
     try {
       // 3. Prepare URLs and Total
-      const totalCount = (hymnPageUrls.length * 2) + sheetUrls.length;
+      const totalCount = hymnPageUrls.length + sheetUrls.length;
       setTotal(totalCount);
 
-      // Phase 1: Cache all hymn pages (HTML)
+      // Phase 1: Cache all hymn pages (HTML for hard-navigation / direct visit)
       if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
       await cacheInBatches(PAGES_CACHE_NAME, hymnPageUrls, {
         batchSize: 10,
@@ -163,21 +155,12 @@ export function AboutModal() {
         onProgress: (d) => setDone(d),
       });
 
-      // Phase 2: Cache all hymn pages (RSC data for offline links)
-      if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
-      await cacheInBatches(PAGES_CACHE_NAME, hymnPageUrls, {
-        batchSize: 10,
-        signal: controller.signal,
-        isRsc: true,
-        onProgress: (d) => setDone(hymnPageUrls.length + d),
-      });
-
-      // Phase 3: Cache all sheet music images
+      // Phase 2: Cache all sheet music images
       if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
       await cacheInBatches(SHEET_CACHE_NAME, sheetUrls, {
-        batchSize: 10, // Reduced from 25 for better UI responsiveness
+        batchSize: 10,
         signal: controller.signal,
-        onProgress: (d) => setDone((hymnPageUrls.length * 2) + d),
+        onProgress: (d) => setDone(hymnPageUrls.length + d),
       });
 
       setIsComplete(true);

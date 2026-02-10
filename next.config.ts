@@ -27,9 +27,16 @@ const withPWA = require("next-pwa")({
         },
       },
     },
-    // Next.js data / pages (best-effort offline navigation after first load)
+    // Next.js data / pages (All hymns, sheet pages, and home page)
     {
-      urlPattern: /^\/(_next\/data\/.*|hymn\/.*|hymn\/.*\/sheet\/?)$/i,
+      urlPattern: ({ url }: { url: URL }) => {
+        const isPage = url.pathname === "/" ||
+          url.pathname.startsWith("/hymn/") ||
+          url.pathname === "/offline";
+        const isData = url.pathname.startsWith("/_next/data/") ||
+          url.pathname.includes("_rsc"); // Match RSC payloads
+        return isPage || isData;
+      },
       handler: "StaleWhileRevalidate",
       options: {
         cacheName: "pages-and-data",
