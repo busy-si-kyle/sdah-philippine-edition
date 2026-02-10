@@ -15,10 +15,10 @@ import sheetMusicMapRaw from "@/data/sheet_music_map.json";
 
 const sheetMusicMap = sheetMusicMapRaw as Record<string, string[]>;
 
-const SHEET_CACHE_NAME = "sheet-images-v4";
-const PAGES_HTML_CACHE = "pages-html-v4";
-const PAGES_RSC_CACHE = "pages-rsc-v4";
-const METADATA_CACHE = "pwa-metadata-v4";
+const SHEET_CACHE_NAME = "sdah-sheets-v5";
+const PAGES_HTML_CACHE = "sdah-html-v5";
+const PAGES_RSC_CACHE = "sdah-rsc-v5";
+const METADATA_CACHE = "sdah-metadata-v5";
 const TOTAL_HYMNS = 474;
 
 function buildAllHymnPageUrls(): string[] {
@@ -93,8 +93,26 @@ async function cacheInBatches(
             signal: opts.signal,
             headers
           });
+
           if (res.ok) {
-            await cache.put(fullUrl, res.clone());
+            // NUCLEAR V5 FIX: Strip restrictive headers like 'Vary' that cause
+            // Safari to throw net::ERR_FAILED when offline.
+            const data = await res.blob();
+            const cleanResponse = new Response(data, {
+              status: res.status,
+              statusText: res.statusText,
+              headers: {
+                "Content-Type": res.headers.get("Content-Type") || "",
+              }
+            });
+
+            // For RSC, we use a specific cache key that will be matched 
+            // by Workbox's ignoreSearch: true rules.
+            const cacheKey = opts.isRsc
+              ? `${fullUrl}${fullUrl.includes('?') ? '&' : '?'}__rsc=1`
+              : fullUrl;
+
+            await cache.put(cacheKey, cleanResponse);
           }
         } catch (err) {
           // ignore failures
@@ -123,7 +141,7 @@ export function AboutModal() {
     const checkStatus = async () => {
       if (typeof window === "undefined" || !("caches" in window)) return;
 
-      const hasFlag = localStorage.getItem("hymnal_downloaded_v4") === "true";
+      const hasFlag = localStorage.getItem("hymnal_downloaded_v5") === "true";
       if (hasFlag) {
         setIsComplete(true);
         return;
@@ -138,7 +156,7 @@ export function AboutModal() {
         const lastHymn = await cache.match(lastHymnCheck, { ignoreSearch: true });
         if (home && lastHymn) {
           setIsComplete(true);
-          localStorage.setItem("hymnal_downloaded_v4", "true");
+          localStorage.setItem("hymnal_downloaded_v5", "true");
         }
       } catch {
         // ignore
@@ -207,7 +225,7 @@ export function AboutModal() {
       });
 
       setIsComplete(true);
-      localStorage.setItem("hymnal_downloaded_v4", "true");
+      localStorage.setItem("hymnal_downloaded_v5", "true");
     } catch (e: unknown) {
       if (e instanceof DOMException && e.name === "AbortError") {
         setError("Download cancelled.");

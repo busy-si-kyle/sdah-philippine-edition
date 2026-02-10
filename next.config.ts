@@ -14,15 +14,14 @@ const withPWA = require("next-pwa")({
   runtimeCaching: [
     // 1. RSC Data (for smooth link navigation)
     {
-      urlPattern: ({ url, request }: { url: URL; request?: any }) => {
+      urlPattern: ({ url }: { url: URL }) => {
         if (url.origin !== self.location.origin) return false;
-        const isRsc = url.search.includes("_rsc") ||
-          (request && request.headers && request.headers.get && request.headers.get("RSC") === "1");
-        return isRsc;
+        return url.search.includes("_rsc") || url.pathname.startsWith("/_next/data/");
       },
-      handler: "StaleWhileRevalidate",
+      handler: "NetworkFirst",
       options: {
-        cacheName: "pages-rsc-v4",
+        cacheName: "sdah-rsc-v5",
+        networkTimeoutSeconds: 2,
         expiration: {
           maxEntries: 1500,
           maxAgeSeconds: 60 * 60 * 24 * 30,
@@ -37,17 +36,16 @@ const withPWA = require("next-pwa")({
     },
     // 2. HTML Pages (for direct entry / refresh)
     {
-      urlPattern: ({ url, request }: { url: URL; request?: any }) => {
+      urlPattern: ({ url }: { url: URL }) => {
         if (url.origin !== self.location.origin) return false;
         const p = url.pathname;
-        const isRsc = url.search.includes("_rsc") ||
-          (request && request.headers && request.headers.get && request.headers.get("RSC") === "1");
         const isPage = p === "/" || p.startsWith("/hymn/") || p === "/offline" || p === "/contribute";
-        return isPage && !isRsc;
+        return isPage && !url.search.includes("_rsc");
       },
-      handler: "StaleWhileRevalidate",
+      handler: "NetworkFirst",
       options: {
-        cacheName: "pages-html-v4",
+        cacheName: "sdah-html-v5",
+        networkTimeoutSeconds: 2,
         expiration: {
           maxEntries: 1500,
           maxAgeSeconds: 60 * 60 * 24 * 30,
@@ -60,46 +58,43 @@ const withPWA = require("next-pwa")({
         },
       },
     },
-    // 3. PWA Metadata (Manifest, Favicon, Icons)
+    // 3. Critical Metadata (Manifest, Favicon, Icons)
     {
       urlPattern: ({ url }: { url: URL }) => {
         if (url.origin !== self.location.origin) return false;
         const p = url.pathname;
-        return p.includes("manifest") || p.includes("favicon") || p.includes("icon") || p.endsWith(".ico");
+        return p.includes("manifest") || p.includes("favicon") || p.includes("icon") || p.endsWith(".ico") || p.endsWith(".png") || p.endsWith(".svg");
       },
-      handler: "StaleWhileRevalidate",
+      handler: "CacheFirst",
       options: {
-        cacheName: "pwa-metadata-v4",
+        cacheName: "sdah-metadata-v5",
         expiration: {
           maxEntries: 50,
         },
       },
     },
-    // 4. Sheet Music images
+    // 4. Sheet Music Images
     {
       urlPattern: ({ url }: { url: URL }) => {
         return url.origin === self.location.origin && url.pathname.includes("/sheets/fil/");
       },
       handler: "CacheFirst",
       options: {
-        cacheName: "sheet-images-v4",
+        cacheName: "sdah-sheets-v5",
         expiration: {
           maxEntries: 5000,
           maxAgeSeconds: 60 * 60 * 24 * 365,
         },
-        cacheableResponse: {
-          statuses: [0, 200],
-        },
       },
     },
-    // 5. Next.js Static Assets
+    // 5. Next.js Internal Static Assets
     {
       urlPattern: ({ url }: { url: URL }) => {
         return url.origin === self.location.origin && url.pathname.startsWith("/_next/static/");
       },
       handler: "CacheFirst",
       options: {
-        cacheName: "static-assets-v4",
+        cacheName: "sdah-static-v5",
         expiration: {
           maxEntries: 1000,
         },
