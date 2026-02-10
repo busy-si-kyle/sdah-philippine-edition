@@ -15,10 +15,10 @@ import sheetMusicMapRaw from "@/data/sheet_music_map.json";
 
 const sheetMusicMap = sheetMusicMapRaw as Record<string, string[]>;
 
-const SHEET_CACHE_NAME = "sheet-images";
-const PAGES_HTML_CACHE = "pages-html";
-const PAGES_RSC_CACHE = "pages-rsc";
-const METADATA_CACHE = "pwa-metadata";
+const SHEET_CACHE_NAME = "sheet-images-v4";
+const PAGES_HTML_CACHE = "pages-html-v4";
+const PAGES_RSC_CACHE = "pages-rsc-v4";
+const METADATA_CACHE = "pwa-metadata-v4";
 const TOTAL_HYMNS = 474;
 
 function buildAllHymnPageUrls(): string[] {
@@ -123,7 +123,7 @@ export function AboutModal() {
     const checkStatus = async () => {
       if (typeof window === "undefined" || !("caches" in window)) return;
 
-      const hasFlag = localStorage.getItem("hymnal_downloaded") === "true";
+      const hasFlag = localStorage.getItem("hymnal_downloaded_v4") === "true";
       if (hasFlag) {
         setIsComplete(true);
         return;
@@ -138,7 +138,7 @@ export function AboutModal() {
         const lastHymn = await cache.match(lastHymnCheck, { ignoreSearch: true });
         if (home && lastHymn) {
           setIsComplete(true);
-          localStorage.setItem("hymnal_downloaded", "true");
+          localStorage.setItem("hymnal_downloaded_v4", "true");
         }
       } catch {
         // ignore
@@ -207,7 +207,7 @@ export function AboutModal() {
       });
 
       setIsComplete(true);
-      localStorage.setItem("hymnal_downloaded", "true");
+      localStorage.setItem("hymnal_downloaded_v4", "true");
     } catch (e: unknown) {
       if (e instanceof DOMException && e.name === "AbortError") {
         setError("Download cancelled.");
@@ -313,7 +313,7 @@ export function AboutModal() {
                     onClick={() => start(false)}
                     size="sm"
                     className="w-full rounded-full gap-2"
-                    disabled={typeof navigator !== "undefined" && !navigator.onLine}
+                    disabled={typeof navigator !== "undefined" && !navigator.onLine && !isComplete}
                   >
                     <DownloadCloud className="h-4 w-4" />
                     Download Entire Hymnal for Offline
