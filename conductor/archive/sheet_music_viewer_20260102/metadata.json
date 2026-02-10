@@ -1,8 +1,0 @@
-{
-  "track_id": "sheet_music_viewer_20260102",
-  "type": "feature",
-  "status": "new",
-  "created_at": "2026-01-02T17:20:00Z",
-  "updated_at": "2026-01-02T17:20:00Z",
-  "description": "Implement a local sheet music viewer using PNG assets, displaying multi-page hymns in a modal."
-}
