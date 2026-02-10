@@ -79,7 +79,7 @@ async function cacheInBatches(
 
         // Skip if already cached (unless RSC, which we refresh to be safe)
         if (!opts.isRsc) {
-          const existing = await cache.match(fullUrl);
+          const existing = await cache.match(fullUrl, { ignoreSearch: true });
           if (existing) {
             done += 1;
             opts.onProgress?.(done, total);
@@ -132,8 +132,10 @@ export function AboutModal() {
       // Secondary check: see if home page and a high-number hymn are cached
       try {
         const cache = await caches.open(PAGES_HTML_CACHE);
-        const home = await cache.match(new URL("/", window.location.origin).href);
-        const lastHymn = await cache.match(new URL(`/hymn/${TOTAL_HYMNS}`, window.location.origin).href);
+        const homeCheck = new URL("/", window.location.origin).href;
+        const lastHymnCheck = new URL("/hymn/474", window.location.origin).href;
+        const home = await cache.match(homeCheck, { ignoreSearch: true });
+        const lastHymn = await cache.match(lastHymnCheck, { ignoreSearch: true });
         if (home && lastHymn) {
           setIsComplete(true);
           localStorage.setItem("hymnal_downloaded", "true");
@@ -179,7 +181,7 @@ export function AboutModal() {
         onProgress: (d) => setDone(d),
       });
 
-      // Phase 1: Cache all hymn pages (HTML for hard-navigation / direct visit)
+      // Phase 1: Cache all hymn pages (HTML)
       if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
       await cacheInBatches(PAGES_HTML_CACHE, hymnPageUrls, {
         batchSize: 10,
@@ -187,12 +189,12 @@ export function AboutModal() {
         onProgress: (d) => setDone(criticalUrls.length + d),
       });
 
-      // Phase 2: Cache all hymn pages (RSC data for offline links)
+      // Phase 2: Cache all hymn pages (RSC data)
       if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
       await cacheInBatches(PAGES_RSC_CACHE, hymnPageUrls, {
         batchSize: 10,
         signal: controller.signal,
-        isRsc: true, // This adds the RSC headers
+        isRsc: true,
         onProgress: (d) => setDone(criticalUrls.length + hymnPageUrls.length + d),
       });
 
