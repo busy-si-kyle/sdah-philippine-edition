@@ -66,8 +66,11 @@ async function cacheInBatches(
       batch.map(async (url) => {
         if (opts.signal?.aborted) return;
 
+        // Convert to absolute URL for reliable cache matching
+        const fullUrl = new URL(url, window.location.origin).href;
+
         // Skip if already cached to avoid unnecessary network noise during 'Update'
-        const existing = await cache.match(url);
+        const existing = await cache.match(fullUrl);
         if (existing) {
           done += 1;
           opts.onProgress?.(done, total);
@@ -75,12 +78,12 @@ async function cacheInBatches(
         }
 
         try {
-          const res = await fetch(url, {
+          const res = await fetch(fullUrl, {
             cache: "no-store",
             signal: opts.signal
           });
           if (res.ok) {
-            await cache.put(url, res.clone());
+            await cache.put(fullUrl, res.clone());
           }
         } catch (err) {
           // ignore failures

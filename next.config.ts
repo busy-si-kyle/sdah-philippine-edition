@@ -14,7 +14,7 @@ const withPWA = require("next-pwa")({
   runtimeCaching: [
     // Sheet music PNGs (static assets served from /public/sheets/fil/*)
     {
-      urlPattern: /^\/sheets\/fil\/.*\.png$/i,
+      urlPattern: /\/sheets\/fil\/.*\.png$/i,
       handler: "CacheFirst",
       options: {
         cacheName: "sheet-images",
@@ -30,17 +30,19 @@ const withPWA = require("next-pwa")({
     // Next.js data / pages (All hymns, sheet pages, and home page)
     {
       urlPattern: ({ url }: { url: URL }) => {
-        const isHomePage = url.pathname === "/" || url.pathname === "" || url.pathname === "/index";
+        const p = url.pathname;
+        const isHomePage = p === "" || p === "/" || p === "/index";
         const isPage = isHomePage ||
-          url.pathname.startsWith("/hymn/") ||
-          url.pathname === "/offline";
-        const isData = url.pathname.startsWith("/_next/data/") ||
-          url.pathname.includes("_rsc"); // Match RSC payloads
-        return isPage || isData;
+          p.startsWith("/hymn/") ||
+          p === "/offline";
+        const isData = p.startsWith("/_next/data/") ||
+          url.search.includes("_rsc"); // Match RSC payloads
+        return (url.origin === self.location.origin) && (isPage || isData);
       },
-      handler: "StaleWhileRevalidate",
+      handler: "NetworkFirst",
       options: {
         cacheName: "pages-and-data",
+        networkTimeoutSeconds: 3,
         expiration: {
           maxEntries: 1500,
           maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
@@ -48,11 +50,14 @@ const withPWA = require("next-pwa")({
         cacheableResponse: {
           statuses: [0, 200],
         },
+        matchOptions: {
+          ignoreSearch: true,
+        },
       },
     },
     // Next static assets
     {
-      urlPattern: /^\/_next\/static\/.*/i,
+      urlPattern: /\/_next\/static\/.*/i,
       handler: "CacheFirst",
       options: {
         cacheName: "next-static",
