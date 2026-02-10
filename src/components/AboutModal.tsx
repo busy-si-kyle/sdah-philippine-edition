@@ -15,14 +15,14 @@ import sheetMusicMapRaw from "@/data/sheet_music_map.json";
 
 const sheetMusicMap = sheetMusicMapRaw as Record<string, string[]>;
 
-const SHEET_CACHE_NAME = "sdah-sheets-v5";
-const PAGES_HTML_CACHE = "sdah-html-v5";
-const PAGES_RSC_CACHE = "sdah-rsc-v5";
-const METADATA_CACHE = "sdah-metadata-v5";
+const SHEET_CACHE_NAME = "sdah-sheets-v6";
+const PAGES_HTML_CACHE = "sdah-html-v6";
+const PAGES_RSC_CACHE = "sdah-rsc-v6";
+const METADATA_CACHE = "sdah-metadata-v6";
 const TOTAL_HYMNS = 474;
 
 function buildAllHymnPageUrls(): string[] {
-  const urls: string[] = ["/"];
+  const urls: string[] = ["/", "/offline", "/contribute"];
   for (let i = 1; i <= TOTAL_HYMNS; i++) {
     const path = `/hymn/${i}`;
     urls.push(path);
@@ -148,8 +148,7 @@ export function AboutModal() {
   React.useEffect(() => {
     const checkStatus = async () => {
       if (typeof window === "undefined" || !("caches" in window)) return;
-
-      const hasFlag = localStorage.getItem("hymnal_downloaded_v5") === "true";
+      const hasFlag = localStorage.getItem("hymnal_downloaded_v6") === "true";
       if (hasFlag) {
         setIsComplete(true);
         return;
@@ -166,7 +165,7 @@ export function AboutModal() {
         const lastSheet = await cache.match(lastSheetCheck, { ignoreSearch: true });
         if (home && lastHymn && lastSheet) {
           setIsComplete(true);
-          localStorage.setItem("hymnal_downloaded_v5", "true");
+          localStorage.setItem("hymnal_downloaded_v6", "true");
         }
       } catch {
         // ignore
@@ -235,7 +234,7 @@ export function AboutModal() {
       });
 
       setIsComplete(true);
-      localStorage.setItem("hymnal_downloaded_v5", "true");
+      localStorage.setItem("hymnal_downloaded_v6", "true");
     } catch (e: unknown) {
       if (e instanceof DOMException && e.name === "AbortError") {
         setError("Download cancelled.");
