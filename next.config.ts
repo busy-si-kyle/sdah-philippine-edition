@@ -30,7 +30,8 @@ const withPWA = require("next-pwa")({
     // Next.js data / pages (All hymns, sheet pages, and home page)
     {
       urlPattern: ({ url }: { url: URL }) => {
-        const isPage = url.pathname === "/" ||
+        const isHomePage = url.pathname === "/" || url.pathname === "" || url.pathname === "/index";
+        const isPage = isHomePage ||
           url.pathname.startsWith("/hymn/") ||
           url.pathname === "/offline";
         const isData = url.pathname.startsWith("/_next/data/") ||
