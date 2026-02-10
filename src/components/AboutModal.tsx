@@ -15,14 +15,27 @@ import sheetMusicMapRaw from "@/data/sheet_music_map.json";
 
 const sheetMusicMap = sheetMusicMapRaw as Record<string, string[]>;
 
-const SHEET_CACHE_NAME = "sdah-sheets-v6";
-const PAGES_HTML_CACHE = "sdah-html-v6";
-const PAGES_RSC_CACHE = "sdah-rsc-v6";
-const METADATA_CACHE = "sdah-metadata-v6";
+const SHEET_CACHE_NAME = "sdah-sheets-v7";
+const PAGES_HTML_CACHE = "sdah-html-v7";
+const PAGES_RSC_CACHE = "sdah-rsc-v7";
+const METADATA_CACHE = "sdah-metadata-v7";
 const TOTAL_HYMNS = 474;
 
 function buildAllHymnPageUrls(): string[] {
+  // We include both "/" and "origin" to ensure reloads on the root domain 
+  // match perfectly regardless of trailing slash.
   const urls: string[] = ["/", "/offline", "/contribute"];
+
+  // Add the base origin URL if we are in the browser
+  if (typeof window !== "undefined") {
+    urls.push(window.location.origin);
+    // Also try variant without trailing slash if it's different
+    const originNoSlash = window.location.origin.endsWith('/')
+      ? window.location.origin.slice(0, -1)
+      : window.location.origin;
+    if (!urls.includes(originNoSlash)) urls.push(originNoSlash);
+  }
+
   for (let i = 1; i <= TOTAL_HYMNS; i++) {
     const path = `/hymn/${i}`;
     urls.push(path);
@@ -148,7 +161,7 @@ export function AboutModal() {
   React.useEffect(() => {
     const checkStatus = async () => {
       if (typeof window === "undefined" || !("caches" in window)) return;
-      const hasFlag = localStorage.getItem("hymnal_downloaded_v6") === "true";
+      const hasFlag = localStorage.getItem("hymnal_downloaded_v7") === "true";
       if (hasFlag) {
         setIsComplete(true);
         return;
@@ -165,7 +178,7 @@ export function AboutModal() {
         const lastSheet = await cache.match(lastSheetCheck, { ignoreSearch: true });
         if (home && lastHymn && lastSheet) {
           setIsComplete(true);
-          localStorage.setItem("hymnal_downloaded_v6", "true");
+          localStorage.setItem("hymnal_downloaded_v7", "true");
         }
       } catch {
         // ignore
@@ -234,7 +247,7 @@ export function AboutModal() {
       });
 
       setIsComplete(true);
-      localStorage.setItem("hymnal_downloaded_v6", "true");
+      localStorage.setItem("hymnal_downloaded_v7", "true");
     } catch (e: unknown) {
       if (e instanceof DOMException && e.name === "AbortError") {
         setError("Download cancelled.");

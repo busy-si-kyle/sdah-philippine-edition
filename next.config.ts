@@ -20,9 +20,9 @@ const withPWA = require("next-pwa")({
           (request && request.headers && request.headers.get && request.headers.get("RSC") === "1");
         return isRsc || url.pathname.startsWith("/_next/data/");
       },
-      handler: "StaleWhileRevalidate",
+      handler: "CacheFirst",
       options: {
-        cacheName: "sdah-rsc-v6",
+        cacheName: "sdah-rsc-v7",
         expiration: {
           maxEntries: 1500,
           maxAgeSeconds: 60 * 60 * 24 * 30,
@@ -43,9 +43,9 @@ const withPWA = require("next-pwa")({
         const isPage = p === "/" || p.startsWith("/hymn/") || p === "/offline" || p === "/contribute";
         return isPage && !url.search.includes("_rsc");
       },
-      handler: "StaleWhileRevalidate",
+      handler: "CacheFirst",
       options: {
-        cacheName: "sdah-html-v6",
+        cacheName: "sdah-html-v7",
         expiration: {
           maxEntries: 1500,
           maxAgeSeconds: 60 * 60 * 24 * 30,
@@ -67,7 +67,7 @@ const withPWA = require("next-pwa")({
       },
       handler: "CacheFirst",
       options: {
-        cacheName: "sdah-metadata-v6",
+        cacheName: "sdah-metadata-v7",
         expiration: {
           maxEntries: 50,
         },
@@ -80,7 +80,7 @@ const withPWA = require("next-pwa")({
       },
       handler: "CacheFirst",
       options: {
-        cacheName: "sdah-sheets-v6",
+        cacheName: "sdah-sheets-v7",
         expiration: {
           maxEntries: 5000,
           maxAgeSeconds: 60 * 60 * 24 * 365,
@@ -94,7 +94,7 @@ const withPWA = require("next-pwa")({
       },
       handler: "CacheFirst",
       options: {
-        cacheName: "sdah-static-v6",
+        cacheName: "sdah-static-v7",
         expiration: {
           maxEntries: 1000,
         },
