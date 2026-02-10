@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Link from "next/link";
+
 
 interface SheetCarouselProps {
     images: string[];
@@ -98,21 +98,17 @@ export default function SheetCarousel({ images, hymnTitle }: SheetCarouselProps)
                                     onError={() => setFailed((prev) => ({ ...prev, [index]: true }))}
                                 />
                                 {failed[index] && (
-                                  <div className="mt-4 px-4 pb-2 text-center text-sm text-zinc-600">
-                                    {navigator.onLine ? (
-                                      <span>
-                                        This image failed to load. Please try again.
-                                      </span>
-                                    ) : (
-                                      <span>
-                                        This sheet page isn’t available offline yet. Go to{" "}
-                                        <Link href="/offline" className="text-primary font-semibold hover:underline">
-                                          Offline downloads
-                                        </Link>{" "}
-                                        to download the library.
-                                      </span>
-                                    )}
-                                  </div>
+                                    <div className="mt-4 px-4 pb-2 text-center text-sm text-zinc-600">
+                                        {navigator.onLine ? (
+                                            <span>
+                                                This image failed to load. Please try again.
+                                            </span>
+                                        ) : (
+                                            <span>
+                                                This sheet isn&apos;t cached yet. Use the <strong>Download for Offline</strong> option in the <strong>About</strong> menu (ℹ️) to save the entire hymnal.
+                                            </span>
+                                        )}
+                                    </div>
                                 )}
                                 <div className="mt-4 pb-8 sm:pb-0 text-center text-xs text-zinc-400 font-medium uppercase tracking-widest">
                                     Page {index + 1} of {images.length}

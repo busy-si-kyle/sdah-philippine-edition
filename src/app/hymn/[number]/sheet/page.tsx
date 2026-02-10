@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ChevronLeft, FileX } from "lucide-react";
 import sheetMusicMapRaw from "@/data/sheet_music_map.json";
 import SheetCarousel from "./SheetCarousel";
-import { OfflineStatusPill } from "@/components/OfflineStatusPill";
 
 const sheetMusicMap = sheetMusicMapRaw as Record<string, string[]>;
 
@@ -62,12 +61,6 @@ export default async function SheetMusicPage({ params }: PageProps) {
           <div className="text-xs font-medium text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded whitespace-nowrap flex-shrink-0">
             {images.length} {images.length === 1 ? 'Page' : 'Pages'}
           </div>
-        </div>
-        <div className="px-4 pb-3 max-w-screen-2xl mx-auto flex items-center justify-between gap-3">
-          <OfflineStatusPill />
-          <Link href="/offline" className="text-xs font-semibold text-primary hover:underline">
-            Offline downloads
-          </Link>
         </div>
       </header>
 

@@ -7,7 +7,6 @@ import HymnView from "./HymnView";
 import { ClientBackButton } from "./ClientBackButton";
 import { AboutModal } from "@/components/AboutModal";
 import { ReportIssueForm } from "@/components/ReportIssueForm";
-import { OfflineStatusPill } from "@/components/OfflineStatusPill";
 
 interface PageProps {
   params: Promise<{ number: string }>;
@@ -76,15 +75,6 @@ export default async function HymnPage({ params }: PageProps) {
           <div className="flex items-center justify-between gap-2">
             <ClientBackButton />
             <AboutModal />
-          </div>
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            <OfflineStatusPill />
-            <Link
-              href="/offline"
-              className="text-xs font-semibold text-primary hover:underline"
-            >
-              Offline downloads
-            </Link>
           </div>
         </div>
 
