@@ -14,9 +14,11 @@ const withPWA = require("next-pwa")({
   runtimeCaching: [
     // 1. RSC Data (for smooth link navigation)
     {
-      urlPattern: ({ url }: { url: URL }) => {
+      urlPattern: ({ url, request }: { url: URL; request?: any }) => {
         if (url.origin !== self.location.origin) return false;
-        return url.search.includes("_rsc") || url.pathname.startsWith("/_next/data/");
+        const isRsc = url.search.includes("_rsc") ||
+          (request && request.headers && request.headers.get && request.headers.get("RSC") === "1");
+        return isRsc || url.pathname.startsWith("/_next/data/");
       },
       handler: "NetworkFirst",
       options: {

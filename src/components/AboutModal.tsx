@@ -88,7 +88,13 @@ async function cacheInBatches(
         }
 
         try {
-          const res = await fetch(fullUrl, {
+          // When fetching RSC data, we add the query param to the URL 
+          // to ensure the Service Worker routes it to the RSC bucket correctly.
+          const fetchUrl = opts.isRsc
+            ? `${fullUrl}${fullUrl.includes('?') ? '&' : '?'}__rsc=1`
+            : fullUrl;
+
+          const res = await fetch(fetchUrl, {
             cache: "no-store",
             signal: opts.signal,
             headers
@@ -106,6 +112,8 @@ async function cacheInBatches(
               }
             });
 
+            // For RSC, we use a specific cache key that will be matched 
+            // by Workbox's ignoreSearch: true rules.
             // For RSC, we use a specific cache key that will be matched 
             // by Workbox's ignoreSearch: true rules.
             const cacheKey = opts.isRsc
@@ -152,9 +160,11 @@ export function AboutModal() {
         const cache = await caches.open(PAGES_HTML_CACHE);
         const homeCheck = new URL("/", window.location.origin).href;
         const lastHymnCheck = new URL("/hymn/474", window.location.origin).href;
+        const lastSheetCheck = new URL("/hymn/469/sheet", window.location.origin).href;
         const home = await cache.match(homeCheck, { ignoreSearch: true });
         const lastHymn = await cache.match(lastHymnCheck, { ignoreSearch: true });
-        if (home && lastHymn) {
+        const lastSheet = await cache.match(lastSheetCheck, { ignoreSearch: true });
+        if (home && lastHymn && lastSheet) {
           setIsComplete(true);
           localStorage.setItem("hymnal_downloaded_v5", "true");
         }
