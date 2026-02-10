@@ -27,25 +27,20 @@ const withPWA = require("next-pwa")({
         },
       },
     },
-    // Next.js data / pages (All hymns, sheet pages, and home page)
+    // 1. Next.js RSC Data (for client-side link navigation)
     {
-      urlPattern: ({ url }: { url: URL }) => {
-        const p = url.pathname;
-        const isHomePage = p === "" || p === "/" || p === "/index";
-        const isPage = isHomePage ||
-          p.startsWith("/hymn/") ||
-          p === "/offline";
-        const isData = p.startsWith("/_next/data/") ||
-          url.search.includes("_rsc"); // Match RSC payloads
-        return (url.origin === self.location.origin) && (isPage || isData);
+      urlPattern: ({ url, request }: { url: URL; request?: any }) => {
+        const isRsc = url.search.includes("_rsc") ||
+          (request && request.headers && request.headers.get && request.headers.get("RSC") === "1");
+        return (url.origin === self.location.origin) && isRsc;
       },
       handler: "NetworkFirst",
       options: {
-        cacheName: "pages-and-data",
+        cacheName: "pages-rsc",
         networkTimeoutSeconds: 3,
         expiration: {
           maxEntries: 1500,
-          maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+          maxAgeSeconds: 60 * 60 * 24 * 30,
         },
         cacheableResponse: {
           statuses: [0, 200],
@@ -53,6 +48,39 @@ const withPWA = require("next-pwa")({
         matchOptions: {
           ignoreSearch: true,
         },
+      },
+    },
+    // 2. HTML Pages (for direct navigation / hard reload)
+    {
+      urlPattern: ({ url, request }: { url: URL; request?: any }) => {
+        const p = url.pathname;
+        const isRsc = url.search.includes("_rsc") ||
+          (request && request.headers && request.headers.get && request.headers.get("RSC") === "1");
+        const isPage = p === "" || p === "/" || p.startsWith("/hymn/") || p === "/offline";
+        return (url.origin === self.location.origin) && isPage && !isRsc;
+      },
+      handler: "NetworkFirst",
+      options: {
+        cacheName: "pages-html",
+        networkTimeoutSeconds: 3,
+        expiration: {
+          maxEntries: 1500,
+          maxAgeSeconds: 60 * 60 * 24 * 30,
+        },
+        cacheableResponse: {
+          statuses: [0, 200],
+        },
+        matchOptions: {
+          ignoreSearch: true,
+        },
+      },
+    },
+    // 3. PWA Metadata
+    {
+      urlPattern: /\/(manifest\.webmanifest|manifest\.json|favicon\.ico|apple-icon.*)$/i,
+      handler: "StaleWhileRevalidate",
+      options: {
+        cacheName: "pwa-metadata",
       },
     },
     // Next static assets

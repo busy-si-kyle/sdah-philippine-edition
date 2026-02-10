@@ -16,7 +16,9 @@ import sheetMusicMapRaw from "@/data/sheet_music_map.json";
 const sheetMusicMap = sheetMusicMapRaw as Record<string, string[]>;
 
 const SHEET_CACHE_NAME = "sheet-images";
-const PAGES_CACHE_NAME = "pages-and-data";
+const PAGES_HTML_CACHE = "pages-html";
+const PAGES_RSC_CACHE = "pages-rsc";
+const METADATA_CACHE = "pwa-metadata";
 const TOTAL_HYMNS = 474;
 
 function buildAllHymnPageUrls(): string[] {
@@ -52,6 +54,7 @@ async function cacheInBatches(
     batchSize: number;
     signal?: AbortSignal;
     onProgress?: (done: number, total: number) => void;
+    isRsc?: boolean;
   }
 ) {
   const cache = await caches.open(cacheName);
@@ -69,18 +72,26 @@ async function cacheInBatches(
         // Convert to absolute URL for reliable cache matching
         const fullUrl = new URL(url, window.location.origin).href;
 
-        // Skip if already cached to avoid unnecessary network noise during 'Update'
-        const existing = await cache.match(fullUrl);
-        if (existing) {
-          done += 1;
-          opts.onProgress?.(done, total);
-          return;
+        // For RSC requests, we use special headers
+        const headers: Record<string, string> = opts.isRsc
+          ? { "RSC": "1", "Next-Router-Prefetch": "1" }
+          : {};
+
+        // Skip if already cached (unless RSC, which we refresh to be safe)
+        if (!opts.isRsc) {
+          const existing = await cache.match(fullUrl);
+          if (existing) {
+            done += 1;
+            opts.onProgress?.(done, total);
+            return;
+          }
         }
 
         try {
           const res = await fetch(fullUrl, {
             cache: "no-store",
-            signal: opts.signal
+            signal: opts.signal,
+            headers
           });
           if (res.ok) {
             await cache.put(fullUrl, res.clone());
@@ -120,9 +131,9 @@ export function AboutModal() {
 
       // Secondary check: see if home page and a high-number hymn are cached
       try {
-        const cache = await caches.open(PAGES_CACHE_NAME);
-        const home = await cache.match("/");
-        const lastHymn = await cache.match(`/hymn/${TOTAL_HYMNS}`);
+        const cache = await caches.open(PAGES_HTML_CACHE);
+        const home = await cache.match(new URL("/", window.location.origin).href);
+        const lastHymn = await cache.match(new URL(`/hymn/${TOTAL_HYMNS}`, window.location.origin).href);
         if (home && lastHymn) {
           setIsComplete(true);
           localStorage.setItem("hymnal_downloaded", "true");
@@ -147,23 +158,50 @@ export function AboutModal() {
 
     try {
       // 3. Prepare URLs and Total
-      const totalCount = hymnPageUrls.length + sheetUrls.length;
+      const criticalUrls = [
+        "/",
+        "/offline",
+        "/manifest.webmanifest",
+        "/favicon.ico",
+        "/apple-icon",
+        "/icon/192",
+        "/icon/512"
+      ];
+
+      const totalCount = criticalUrls.length + (hymnPageUrls.length * 2) + sheetUrls.length;
       setTotal(totalCount);
 
-      // Phase 1: Cache all hymn pages (HTML for hard-navigation / direct visit)
+      // Phase 0: Critical Assets
       if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
-      await cacheInBatches(PAGES_CACHE_NAME, hymnPageUrls, {
-        batchSize: 10,
+      await cacheInBatches(METADATA_CACHE, criticalUrls, {
+        batchSize: 5,
         signal: controller.signal,
         onProgress: (d) => setDone(d),
       });
 
-      // Phase 2: Cache all sheet music images
+      // Phase 1: Cache all hymn pages (HTML for hard-navigation / direct visit)
       if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
-      await cacheInBatches(SHEET_CACHE_NAME, sheetUrls, {
+      await cacheInBatches(PAGES_HTML_CACHE, hymnPageUrls, {
         batchSize: 10,
         signal: controller.signal,
-        onProgress: (d) => setDone(hymnPageUrls.length + d),
+        onProgress: (d) => setDone(criticalUrls.length + d),
+      });
+
+      // Phase 2: Cache all hymn pages (RSC data for offline links)
+      if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
+      await cacheInBatches(PAGES_RSC_CACHE, hymnPageUrls, {
+        batchSize: 10,
+        signal: controller.signal,
+        isRsc: true, // This adds the RSC headers
+        onProgress: (d) => setDone(criticalUrls.length + hymnPageUrls.length + d),
+      });
+
+      // Phase 3: Cache all sheet music images
+      if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
+      await cacheInBatches(SHEET_CACHE_NAME, sheetUrls, {
+        batchSize: 15,
+        signal: controller.signal,
+        onProgress: (d) => setDone(criticalUrls.length + (hymnPageUrls.length * 2) + d),
       });
 
       setIsComplete(true);
