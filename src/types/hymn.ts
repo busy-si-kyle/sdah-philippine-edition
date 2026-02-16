@@ -1,7 +1,12 @@
+export interface HymnVerse {
+  label: string;
+  text: string;
+}
+
 export interface Hymn {
   number: number;
   title: string;
-  lyrics: string;
+  verses: HymnVerse[];
   category?: string;
   sheetMusicUrl?: string; // Google Drive link
 }
