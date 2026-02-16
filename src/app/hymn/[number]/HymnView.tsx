@@ -136,22 +136,20 @@ export default function HymnView({ hymn }: HymnViewProps) {
 
               {/* Lyrics Section */}
               <div className="w-full mt-4 flex flex-col items-center gap-6 text-center">
-                {Array.isArray((hymn as any).verses) && (hymn as any).verses.length > 0 ? (
-                  (hymn as any).verses.map((verse: any, index: number) => (
+                {hymn.verses && hymn.verses.length > 0 ? (
+                  hymn.verses.map((verse, index) => (
                     <div
                       key={index}
-                      className={`flex flex-col gap-2 max-w-2xl w-full ${
-                        verse.label?.toLowerCase?.().includes("chorus") ||
-                        verse.label?.toLowerCase?.().includes("koro")
+                      className={`flex flex-col gap-2 max-w-2xl w-full ${verse.label?.toLowerCase()?.includes("chorus") ||
+                          verse.label?.toLowerCase()?.includes("koro")
                           ? "italic text-zinc-600 dark:text-zinc-400"
                           : ""
-                      }`}
+                        }`}
                     >
                       {verse.label && (
                         <span
-                          className={`text-lg font-bold text-primary/80 uppercase tracking-widest mb-2 ${
-                            index > 0 ? "mt-6" : ""
-                          }`}
+                          className={`text-lg font-bold text-primary/80 uppercase tracking-widest mb-2 ${index > 0 ? "mt-6" : ""
+                            }`}
                         >
                           {verse.label}
                         </span>
@@ -161,10 +159,6 @@ export default function HymnView({ hymn }: HymnViewProps) {
                       </p>
                     </div>
                   ))
-                ) : typeof (hymn as any).lyrics === "string" ? (
-                  <p className="whitespace-pre-wrap font-sans text-xl sm:text-2xl leading-relaxed text-zinc-800 dark:text-zinc-200 max-w-2xl">
-                    {(hymn as any).lyrics}
-                  </p>
                 ) : null}
               </div>
 
