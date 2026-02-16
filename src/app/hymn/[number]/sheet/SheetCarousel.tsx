@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+
 interface SheetCarouselProps {
     images: string[];
     hymnTitle: string;
@@ -12,6 +13,7 @@ interface SheetCarouselProps {
 export default function SheetCarousel({ images, hymnTitle }: SheetCarouselProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [currentPage, setCurrentPage] = useState(0);
+    const [failed, setFailed] = useState<Record<number, boolean>>({});
 
     const scrollToPage = (index: number) => {
         if (containerRef.current) {
@@ -93,7 +95,21 @@ export default function SheetCarousel({ images, hymnTitle }: SheetCarouselProps)
                                     alt={`${hymnTitle} - Sheet Music Page ${index + 1}`}
                                     className="w-full h-auto object-contain"
                                     loading={index === 0 ? "eager" : "lazy"}
+                                    onError={() => setFailed((prev) => ({ ...prev, [index]: true }))}
                                 />
+                                {failed[index] && (
+                                    <div className="mt-4 px-4 pb-2 text-center text-sm text-zinc-600">
+                                        {navigator.onLine ? (
+                                            <span>
+                                                This image failed to load. Please try again.
+                                            </span>
+                                        ) : (
+                                            <span>
+                                                This sheet isn&apos;t cached yet. Use the <strong>Download for Offline</strong> option in the <strong>About</strong> menu (ℹ️) to save the entire hymnal.
+                                            </span>
+                                        )}
+                                    </div>
+                                )}
                                 <div className="mt-4 pb-8 sm:pb-0 text-center text-xs text-zinc-400 font-medium uppercase tracking-widest">
                                     Page {index + 1} of {images.length}
                                 </div>

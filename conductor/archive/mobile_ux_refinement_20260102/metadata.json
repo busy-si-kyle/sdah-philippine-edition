@@ -1,8 +1,0 @@
-{
-  "track_id": "mobile_ux_refinement_20260102",
-  "type": "feature",
-  "status": "new",
-  "created_at": "2026-01-02T19:15:00Z",
-  "updated_at": "2026-01-02T19:15:00Z",
-  "description": "Refine navigation from Contribute page, fix mobile Back button, hide arrows on mobile, and implement swipe navigation."
-}

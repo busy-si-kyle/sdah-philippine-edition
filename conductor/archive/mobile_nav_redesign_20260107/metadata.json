@@ -1,8 +1,0 @@
-{
-  "track_id": "mobile_nav_redesign_20260107",
-  "type": "feature",
-  "status": "new",
-  "created_at": "2026-01-07T00:00:00Z",
-  "updated_at": "2026-01-07T00:00:00Z",
-  "description": "feat: remove swipe gestures in mobile (navigating across hymns in hymn detail page). UI redesign: seperate hymn number and title into their own separate lines. number on top then title next line. move the sticky arrow icons (for navigating across hymns) in the same line as the hymn number. Improve contrast of button of arrow icons (do not introduce new colors)."
-}

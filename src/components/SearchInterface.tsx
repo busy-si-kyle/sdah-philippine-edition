@@ -1,0 +1,137 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { searchHymns, getAllHymns } from "@/lib/hymnal";
+import { Hymn } from "@/types/hymn";
+import Link from "next/link";
+import { Search, FilterX } from "lucide-react";
+import { Virtuoso } from "react-virtuoso";
+import { motion, Variants } from "framer-motion";
+
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        },
+    },
+};
+
+const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.5,
+            ease: "easeOut",
+        },
+    },
+};
+
+export function SearchInterface() {
+    const [query, setQuery] = useState("");
+    const [results, setResults] = useState<Hymn[]>([]);
+    const [hasSearched, setHasSearched] = useState(false);
+
+    // Load all hymns on initial mount
+    useEffect(() => {
+        setResults(getAllHymns());
+    }, []);
+
+    const applySearch = (searchQuery: string) => {
+        if (searchQuery.trim()) {
+            const searchResults = searchHymns(searchQuery);
+            setResults(searchResults);
+            setHasSearched(true);
+        } else {
+            setResults(getAllHymns());
+            setHasSearched(false);
+        }
+    };
+
+    const handleSearch = (value: string) => {
+        setQuery(value);
+        applySearch(value);
+    };
+
+    return (
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="flex w-full flex-col items-center gap-8"
+        >
+            <motion.div variants={itemVariants} className="w-full space-y-4">
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        applySearch(query);
+                    }}
+                    className="w-full"
+                >
+                    <div className="relative w-full">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                        <Input
+                            type="search"
+                            placeholder="Search hymns by title, number, or lyrics..."
+                            className="w-full h-12 text-lg pl-10 bg-white dark:bg-zinc-900"
+                            value={query}
+                            onChange={(e) => handleSearch(e.target.value)}
+                        />
+                    </div>
+                </form>
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="w-full space-y-4">
+                {hasSearched && (
+                    <div className="flex justify-between items-center text-sm text-zinc-500">
+                        <p>{results.length} results found</p>
+                    </div>
+                )}
+
+                {results.length > 0 ? (
+                    <Virtuoso
+                        useWindowScroll
+                        data={results}
+                        itemContent={(index, hymn) => (
+                            <div key={hymn.number} className="pb-4">
+                                <Link
+                                    href={`/hymn/${hymn.number}`}
+                                    className="p-5 rounded-2xl border bg-white dark:bg-zinc-900 dark:border-zinc-800 hover:border-primary/50 transition-all duration-300 group shadow-sm hover:shadow-lg hover:-translate-y-1 block"
+                                >
+                                    <div className="flex justify-between items-start gap-4">
+                                        <div className="space-y-1">
+                                            <h3 className="font-bold text-lg text-zinc-900 dark:text-zinc-50 group-hover:text-primary transition-colors">
+                                                {hymn.number}. {hymn.title}
+                                            </h3>
+                                        </div>
+                                        {hymn.category && (
+                                            <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 bg-zinc-50 dark:bg-zinc-800 border dark:border-zinc-700 px-2 py-1 rounded-md shrink-0">
+                                                {hymn.category}
+                                            </span>
+                                        )}
+                                    </div>
+                                </Link>
+                            </div>
+                        )}
+                    />
+                ) : (
+                    <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
+                        <div className="h-16 w-16 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                            <FilterX className="h-8 w-8 text-zinc-400" />
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-lg font-medium text-zinc-900 dark:text-zinc-50">No hymns found</p>
+                            <p className="text-zinc-500">
+                                Try searching for something else or check your spelling.
+                            </p>
+                        </div>
+                    </div>
+                )}
+            </motion.div>
+        </motion.div>
+    );
+}
