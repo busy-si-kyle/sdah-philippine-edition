@@ -7,6 +7,7 @@ import HymnView from "./HymnView";
 import { ClientBackButton } from "./ClientBackButton";
 import { AboutModal } from "@/components/AboutModal";
 import { ReportIssueForm } from "@/components/ReportIssueForm";
+import { UpdatedSiteBanner } from "@/components/UpdatedSiteBanner";
 
 interface PageProps {
   params: Promise<{ number: string }>;
@@ -83,6 +84,8 @@ export default async function HymnPage({ params }: PageProps) {
         <div className="w-full pt-12 border-t border-zinc-200 dark:border-zinc-800">
           <ReportIssueForm />
         </div>
+
+        <UpdatedSiteBanner />
       </main>
     </div>
   );

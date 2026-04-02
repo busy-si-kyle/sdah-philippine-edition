@@ -9,7 +9,7 @@ import {
   DialogTrigger,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { HelpCircle, Github, DownloadCloud, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
+import { HelpCircle, DownloadCloud, Loader2, AlertCircle, CheckCircle2, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import sheetMusicMapRaw from "@/data/sheet_music_map.json";
 
@@ -296,13 +296,13 @@ export function AboutModal() {
             Ensuring every hymn is preserved with its lyrics and sheet music for the community.
           </p>
           <a
-            href="https://github.com/busy-si-kyle/sdah-philippine-edition"
+            href="https://sdah-philed.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
+            className="inline-flex items-center gap-2 text-sm text-primary"
           >
-            <Github className="h-4 w-4" />
-            View on GitHub
+            <ExternalLink className="h-4 w-4" />
+            View Updated Site
           </a>
 
           {/* Offline Download Section */}

@@ -1,5 +1,6 @@
 import { SearchInterface } from "@/components/SearchInterface";
 import { AboutModal } from "@/components/AboutModal";
+import { UpdatedSiteBanner } from "@/components/UpdatedSiteBanner";
 
 export default function Home() {
   const jsonLd = {
@@ -72,6 +73,8 @@ export default function Home() {
       <footer className="mt-24 py-8 text-center text-zinc-500 text-sm">
         <p>© {new Date().getFullYear()} SDA Hymnal Philippine Edition</p>
       </footer>
+
+      <UpdatedSiteBanner />
     </div>
   );
 }
