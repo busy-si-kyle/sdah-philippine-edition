@@ -107,6 +107,25 @@ const nextConfig: NextConfig = {
   // next-pwa configures webpack internally. Next 16 enables Turbopack by default
   // and will error if a webpack config is present without a turbopack config.
   turbopack: {},
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: 'https://sdah-philed.vercel.app/',
+        permanent: true,
+      },
+      {
+        source: '/hymn/:id',
+        destination: 'https://sdah-philed.vercel.app/hymn/:id',
+        permanent: true,
+      },
+      {
+        source: '/hymn/:id/sheet',
+        destination: 'https://sdah-philed.vercel.app/hymn/:id',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withPWA(nextConfig);
